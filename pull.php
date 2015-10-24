@@ -42,4 +42,4 @@ if (!ctype_alpha(str_replace(".","",$data["repository"]["name"]))) {
 
 echo passthru("/bin/sh ".$_SERVER['DOCUMENT_ROOT']."/pull.sh ".$data["repository"]["name"]." 2>&1");
 
-// mail("kberzinch@uniquetech.co", "New commit pushed to Swampbotics", ob_get_contents(), "From: github-hook@uniquetech.co");
+// mail("you@example.com", "New commit pushed to ".$data["repository"]["name"], ob_get_contents(), "From: some-email@example.com");
