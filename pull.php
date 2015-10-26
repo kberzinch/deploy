@@ -35,7 +35,7 @@ $data    = json_decode($payload, true);
 echo "Authenticated properly\nDelivery ID: ".$headers['X-Github-Delivery']."\nRepository to deploy: ".$data["repository"]["name"]."\n";
 
 // check to make sure repo is only alpha and periods
-if (!ctype_alpha(str_replace(".","",$data["repository"]["name"]))) {
+if (!ctype_alnum(str_replace(".","",$data["repository"]["name"]))) {
     echo "Repo name looks dangerous. Bailing...";
     exit;
 }
