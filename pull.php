@@ -5,7 +5,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/config.php';
 if (!function_exists('getallheaders')) {
     function getallheaders()
     {
-           $headers = '';
+        $headers = '';
         foreach ($_SERVER as $name => $value) {
             if (substr($name, 0, 5) == 'HTTP_') {
                 $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
@@ -35,7 +35,7 @@ $data    = json_decode($payload, true);
 echo "Authenticated properly\nDelivery ID: ".$headers['X-Github-Delivery']."\nRepository to deploy: ".$data["repository"]["name"]."\n";
 
 // check to make sure repo is only alpha and periods and dashes
-if (!ctype_alnum(str_replace(".","",str_replace("-","",$data["repository"]["name"])))) {
+if (!ctype_alnum(str_replace(".", "", str_replace("-", "", $data["repository"]["name"])))) {
     echo "Repo name looks dangerous. Bailing...";
     exit;
 }
