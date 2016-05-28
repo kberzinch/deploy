@@ -1,4 +1,5 @@
 # deploy.swampbotics.org
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/swampbotics/deploy.swampbotics.org/master/LICENSE.md) 
 
 Deploys itself to [deploy.swampbotics.org](http://deploy.swampbotics.org). Works similarly for other repos without any code changes. Used as written to deploy most of [swampbotics.org](http://swampbotics.org) and subdomains.
 
