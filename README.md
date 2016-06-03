@@ -15,7 +15,7 @@ This part is not strictly necessary - you can alternatively just download a zipp
 2. Create a folder ```/var/www/<repo-name>```.
 3. Add ```http://example.com/pull.php``` as a webhook under the repository's settings, with content type ```application/json```, [some secure secret](https://www.random.org/bytes/), and set some events to trigger the webhook (probably ```push```).
 4. Copy ```config.sample.php``` to ```config.php```. Open ```config.php``` and edit it per the instructions there.
-5. Push some stuff to your repo and check the deliveries section under the webhook's settings. You should see some status messages followed by the output of ```git pull```.
+5. Check the deliveries section under the webhook's settings. Webhook creation should trigger a ```ping``` event, so you should see some status messages followed by the output of ```git pull```.
 
 ## Notes
 * Your web server needs to be able to write to both the local Git repo as well as the target directory. I typically change ownership to the web server's user.
