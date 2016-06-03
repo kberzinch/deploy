@@ -1,5 +1,5 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'].'/config.php';
+include 'config.php';
 
 // below code from http://php.net/manual/en/function.getallheaders.php
 if (!function_exists('getallheaders')) {
