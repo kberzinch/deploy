@@ -32,7 +32,7 @@ if ($hash !== $payloadHash) {
 
 $data = json_decode($payload, true);
 
-echo "Authenticated properly\nDelivery ID: ".$headers['X-Github-Delivery']."\nRepository to deploy: ".$data["repository"]["name"]."\n";
+echo "Authenticated properly\nDelivery ID: ".$headers['X-Github-Delivery']."\nRepository to deploy: ".$data["repository"]["full_name"]."\n";
 
 // check to make sure repo is only alpha and periods and dashes
 if (!ctype_alnum(str_replace(".", "", str_replace("-", "", $data["repository"]["name"])))) {
@@ -40,7 +40,7 @@ if (!ctype_alnum(str_replace(".", "", str_replace("-", "", $data["repository"]["
     exit;
 }
 
-echo passthru("/bin/bash ".$_SERVER['DOCUMENT_ROOT']."/pull.sh ".$data["repository"]["name"]." 2>&1");
+echo passthru("/bin/bash ".$_SERVER['DOCUMENT_ROOT']."/pull.sh ".$data["repository"]["name"]." ".$data["repository"]["full_name"]." ".$auth." 2>&1");
 
 if (isset($email_from, $email_to)) {
     mail($email_to, "[".$data["repository"]["full_name"]."] New ".$headers['X-Github-Event']." triggered a deployment", ob_get_contents(), "From: ".$email_from);
