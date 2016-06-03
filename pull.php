@@ -22,3 +22,7 @@ echo passthru("/bin/bash ".$_SERVER['DOCUMENT_ROOT']."/pull.sh ".$data["reposito
 if (isset($email_from, $email_to)) {
     mail($email_to, "[".$data["repository"]["full_name"]."] New ".$_SERVER["HTTP_X_GITHUB_EVENT"]." triggered a deployment", ob_get_contents(), "From: ".$email_from);
 }
+
+if(file_exists('/var/github/'.$data["repository"]["name"].'/post-deploy-hook.php')){
+    include('/var/github/'.$data["repository"]["name"].'/post-deploy-hook.php');
+}
