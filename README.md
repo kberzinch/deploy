@@ -1,7 +1,7 @@
 # deploy
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kberzinch/deploy/master/LICENSE.md) [![StyleCI badge](https://styleci.io/repos/43822640/shield)](https://styleci.io/repos/43822640)
 
-This is a simple utility I cobbled together to trigger deployments from GitHub events. I use it to publish several repositories to my [DigitalOcean](https://m.do.co/c/3c14b82dc1b9) VPS (including itself!) It will optionally send a notification email when a deployment completes using PHP's built-in ```mail()``` function.
+This is a simple utility I cobbled together to trigger deployments from GitHub events. I use it to publish several repositories to my [DigitalOcean](https://m.do.co/c/3c14b82dc1b9) VPS (including itself!) It will optionally send a notification email when a deployment completes using PHP's built-in ```mail()``` function and/or run an additional PHP script after finishing.
 
 ## Initial Setup
 0. Have a PHP-capable web server that serves ```pull.php``` at http://example.com/pull.php.
