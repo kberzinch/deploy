@@ -23,6 +23,6 @@ if (isset($email_from, $email_to)) {
     mail($email_to, "[".$data["repository"]["full_name"]."] New ".$_SERVER["HTTP_X_GITHUB_EVENT"]." triggered a deployment", ob_get_contents(), "From: ".$email_from);
 }
 
-if(file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php')){
+if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php')) {
     include('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php');
 }
