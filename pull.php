@@ -42,6 +42,6 @@ if (!ctype_alnum(str_replace(".", "", str_replace("-", "", $data["repository"]["
 
 echo passthru("/bin/bash ".$_SERVER['DOCUMENT_ROOT']."/pull.sh ".$data["repository"]["name"]." 2>&1");
 
-if (isset($email_from, $email_to)) {}
+if (isset($email_from, $email_to)) {
     mail($email_to, "[".$data["repository"]["full_name"]."] New ".$headers['X-GitHub-Event']." triggered a deployment", ob_get_contents(), "From: ".$email_from);
 }
