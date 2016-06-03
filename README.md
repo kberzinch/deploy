@@ -8,7 +8,7 @@ This part is not strictly necessary - you can alternatively just download a zipp
 
 0. Have a PHP-capable web server that serves ```pull.php``` at http://example.com/pull.php.
 1. Follow the general [Per-Repository Setup](#per-repository-setup) instructions below to set up this repository.
-2. Run ```bash pull.sh <repo-name>``` from within the local copy of this repository to do the initial deployment.
+2. Run ```bash pull.sh deploy``` from within the local copy of this repository to do the initial deployment.
 
 ## Per-Repository Setup
 1. Clone the repo you want to deploy to ```/var/github/<repo-name>```. Use some mechanism for saving your credentials (see [Notes](#notes)).
