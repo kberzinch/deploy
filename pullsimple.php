@@ -17,7 +17,7 @@ $data = json_decode($payload, true);
 
 echo "Authenticated properly\nDelivery ID: ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\nRepository to deploy: ".$data["repository"]["full_name"]."\n";
 
-echo passthru("/bin/bash ".$_SERVER['DOCUMENT_ROOT']."/pullsimple.sh ".$data["repository"]["name"]." ".$data["repository"]["full_name"]." ".$auth." 2>&1");
+echo passthru("/bin/bash ".__DIR__."/pullsimple.sh ".$data["repository"]["name"]." ".$data["repository"]["full_name"]." ".$auth." 2>&1");
 
 if (isset($email_from, $email_to)) {
     mail($email_to, "[".$data["repository"]["full_name"]."] New ".$_SERVER["HTTP_X_GITHUB_EVENT"]." triggered a deployment", ob_get_contents(), "From: ".$email_from);
