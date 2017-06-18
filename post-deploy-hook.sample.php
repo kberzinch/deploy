@@ -1,6 +1,6 @@
 <?php
 
-if (!$_SERVER['REQUEST_URI'] == '/pull.php') {
+if ($_SERVER['REQUEST_URI'] !== '/pull.php') {
     http_response_code(401);
     echo 'Not authorized';
 }
