@@ -2,7 +2,7 @@
 
 if (!$_SERVER['REQUEST_URI'] == '/pull.php') {
     http_response_code(401);
-	echo 'Not authorized';
+    echo 'Not authorized';
 }
 
 unset($email_to); // comment this line and uncomment the one below to enable another email
