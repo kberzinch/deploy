@@ -24,7 +24,7 @@ if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php')
 }
 
 if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh')) {
-    echo passthru('bin/bash /var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh 2>&1');
+    echo passthru('/bin/bash /var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh 2>&1');
 }
 
 if (isset($email_from, $email_to)) {
