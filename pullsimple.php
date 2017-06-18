@@ -19,10 +19,18 @@ echo "Authenticated properly\nDelivery ID: ".$_SERVER["HTTP_X_GITHUB_DELIVERY"].
 
 echo passthru("/bin/bash ".__DIR__."/pullsimple.sh ".$data["repository"]["name"]." ".$data["repository"]["full_name"]." ".$auth." 2>&1");
 
+if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php')) {
+    include('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php');
+}
+
+if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh')) {
+    echo passthru("/bin/bash /var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh' 2>&1");
+}
+
 if (isset($email_from, $email_to)) {
     mail($email_to, "[".$data["repository"]["full_name"]."] New ".$_SERVER["HTTP_X_GITHUB_EVENT"]." triggered a deployment", ob_get_contents(), "From: ".$email_from);
 }
 
-if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php')) {
-    include('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.php');
+if ($printoutput) {
+    file_put_contents('index.html', '<pre>'.ob_get_contents().'</pre>');
 }

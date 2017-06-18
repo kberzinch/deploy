@@ -10,3 +10,5 @@ $secret = "the same secret you put in the GitHub webhook configuration";
 // If you want deploy to set up new private repositories for you and you don't have credentials stored another way,
 // put your authorization string below in the format "username:password@"; otherwise leave it blank.
 $auth = "";
+
+$printoutput = true;
