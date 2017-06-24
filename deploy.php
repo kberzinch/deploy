@@ -54,3 +54,5 @@ if (isset($email_from, $email_to)) {
 mkdir(__DIR__."/".$data["repository"]["full_name"], 0600, true);
 
 file_put_contents(__DIR__."/".$data["repository"]["full_name"]."/".$data["deployment"]["sha"].".html", '<pre>'.ob_get_contents().'</pre>');
+
+set_status("success", "The deployment completed successfully.");
