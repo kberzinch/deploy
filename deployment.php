@@ -30,7 +30,10 @@ echo "Commit:         ".$data["deployment"]["sha"]."\n\n";
 $return_value = 0;
 
 echo passthru(
-    "/bin/bash ".__DIR__."/deploy.sh ".$data["repository"]["name"]." ".tokenize($data["repository"]["clone_url"])." 2>&1",
+    "/bin/bash ".__DIR__."/deployment.sh "
+    .$data["repository"]["name"]." "
+    .tokenize($data["repository"]["clone_url"]
+    ." ".$data["deployment"]["sha"])." 2>&1",
     $return_value
 );
 
@@ -47,12 +50,21 @@ if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh'))
     }
 }
 
+// Transmit and store completion information
 if (isset($email_from, $email_to)) {
-    mail($email_to, "[".$data["repository"]["full_name"]."] New deployment triggered", ob_get_contents(), "From: ".$email_from);
+    mail(
+        $email_to,
+        "[".$data["repository"]["full_name"]."] New deployment triggered",
+        ob_get_contents(),
+        "From: ".
+    );
 }
 
 mkdir(__DIR__."/".$data["repository"]["name"], 0700, true);
 
-file_put_contents(__DIR__."/".$data["repository"]["name"]."/".$data["deployment"]["sha"].".html", '<pre>'.ob_get_contents().'</pre>');
+file_put_contents(
+    __DIR__."/".$data["repository"]["name"]."/".$data["deployment"]["sha"].".html",
+    '<pre>'.ob_get_contents().'</pre>'
+);
 
 set_status("success", "The deployment completed successfully.", $data);

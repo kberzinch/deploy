@@ -6,4 +6,5 @@ git clone ${2}
 exit
 fi
 cd /var/www/$1/
-git pull
+git fetch
+git checkout ${3}
