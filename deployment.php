@@ -3,23 +3,14 @@
 require_once 'config.php';
 require_once 'util.php';
 
-// Verify payload signature
-list($algo, $hash) = explode('=', $_SERVER["HTTP_X_HUB_SIGNATURE"], 2);
-$payload = file_get_contents('php://input');
-$payloadHash = hash_hmac($algo, $payload, $webhook_secret);
-if ($hash !== $payloadHash) {
-    http_response_code(401);
-    die("Signature verification failed.");
-}
-
-$data = json_decode($payload, true);
+global $payload = payload();
 
 if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
     $data["deployment"]["id"] = "0";
     $data["deployment"]["sha"] = "0000000000000000000000000000000000000000";
 }
 
-set_status("pending", "Deployment started", $data);
+set_status("pending", "Deployment started");
 
 // Begin deployment process
 echo "Delivery ID:    ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n";
@@ -38,7 +29,7 @@ echo passthru(
 );
 
 if ($return_value !== 0) {
-    set_status("failure", "The git operation encountered an error.", $data);
+    set_status("error", "The git operation encountered an error.");
 }
 
 $return_value = 0;
@@ -46,7 +37,7 @@ $return_value = 0;
 if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh')) {
     echo passthru('/bin/bash /var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
-        set_status("failure", "The post-deploy-hook encountered an error.", $data);
+        set_status("error", "The post-deploy-hook encountered an error.");
     }
 }
 
@@ -67,4 +58,4 @@ file_put_contents(
     '<pre>'.ob_get_contents().'</pre>'
 );
 
-set_status("success", "The deployment completed successfully.", $data);
+set_status("success", "The deployment completed successfully.");
