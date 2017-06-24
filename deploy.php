@@ -6,7 +6,7 @@ require_once 'util.php';
 // Verify payload signature
 list($algo, $hash) = explode('=', $_SERVER["HTTP_X_HUB_SIGNATURE"], 2);
 $payload = file_get_contents('php://input');
-$payloadHash = hash_hmac($algo, $payload, $secret);
+$payloadHash = hash_hmac($algo, $payload, $webhook_secret);
 if ($hash !== $payloadHash) {
     http_response_code(401);
     die("Signature verification failed.");
