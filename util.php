@@ -50,7 +50,8 @@ function github(string $url, array $data)
     ));
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     $response = curl_exec($ch);
-    if (curl_getinfo($ch, CURLINFO_HTTP_CODE) != 200) {
+    if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== 201) {
+        var_dump(curl_getinfo($ch, CURLINFO_HTTP_CODE));
         var_dump($response);
     }
     curl_close($ch);
