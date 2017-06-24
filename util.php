@@ -11,7 +11,7 @@ function tokenize(string $url)
     return implode("/", $clone_url);
 }
 
-function set_status(string $state, string $description, mixed $payload)
+function set_status(string $state, string $description, array $payload)
 {
     $ch = curl_init(tokenize($payload["deployment"]["statuses_url"]));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
