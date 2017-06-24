@@ -3,9 +3,9 @@
 require_once 'config.php';
 require_once 'util.php';
 
-global $payload = payload();
+$payload = payload();
 
 // Trigger a deployment if the branch matches
-if ('refs/heads/'.$_GET["branch"] === $data["ref"]) {
+if ('refs/heads/'.$_GET["branch"] === $payload["ref"]) {
     trigger_deployment();
 }

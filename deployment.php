@@ -3,28 +3,28 @@
 require_once 'config.php';
 require_once 'util.php';
 
-global $payload = payload();
+$payload = payload();
 
 if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
-    $data["deployment"]["id"] = "0";
-    $data["deployment"]["sha"] = "0000000000000000000000000000000000000000";
+    $payload["deployment"]["id"] = "0";
+    $payload["deployment"]["sha"] = "0000000000000000000000000000000000000000";
 }
 
 set_status("pending", "Deployment started");
 
 // Begin deployment process
 echo "Delivery ID:    ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n";
-echo "Deployment ID:  ".$data["deployment"]["id"]."\n";
-echo "Repository:     ".$data["repository"]["full_name"]."\n";
-echo "Commit:         ".$data["deployment"]["sha"]."\n\n";
+echo "Deployment ID:  ".$payload["deployment"]["id"]."\n";
+echo "Repository:     ".$payload["repository"]["full_name"]."\n";
+echo "Commit:         ".$payload["deployment"]["sha"]."\n\n";
 
 $return_value = 0;
 
 echo passthru(
     "/bin/bash ".__DIR__."/deployment.sh "
-    .$data["repository"]["name"]." "
-    .tokenize($data["repository"]["clone_url"]
-    ." ".$data["deployment"]["sha"])." 2>&1",
+    .$payload["repository"]["name"]." "
+    .tokenize($payload["repository"]["clone_url"]
+    ." ".$payload["deployment"]["sha"])." 2>&1",
     $return_value
 );
 
@@ -34,8 +34,8 @@ if ($return_value !== 0) {
 
 $return_value = 0;
 
-if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh')) {
-    echo passthru('/bin/bash /var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh 2>&1', $return_value);
+if (file_exists('/var/www/'.$payload["repository"]["name"].'/post-deploy-hook.sh')) {
+    echo passthru('/bin/bash /var/www/'.$payload["repository"]["name"].'/post-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("error", "The post-deploy-hook encountered an error.");
     }
@@ -45,16 +45,16 @@ if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh'))
 if (isset($email_from, $email_to)) {
     mail(
         $email_to,
-        "[".$data["repository"]["full_name"]."] New deployment triggered",
+        "[".$payload["repository"]["full_name"]."] New deployment triggered",
         ob_get_contents(),
         "From: ".$email_from
     );
 }
 
-mkdir(__DIR__."/".$data["repository"]["name"], 0700, true);
+mkdir(__DIR__."/".$payload["repository"]["name"], 0700, true);
 
 file_put_contents(
-    __DIR__."/".$data["repository"]["name"]."/".$data["deployment"]["sha"].".html",
+    __DIR__."/".$payload["repository"]["name"]."/".$payload["deployment"]["sha"].".html",
     '<pre>'.ob_get_contents().'</pre>'
 );
 
