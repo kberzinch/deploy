@@ -14,6 +14,11 @@ if ($hash !== $payloadHash) {
 
 $data = json_decode($payload, true);
 
+if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
+    $data["deployment"]["id"] = "0";
+    $data["deployment"]["sha"] = "0000000000000000000000000000000000000000";
+}
+
 set_status("pending", "Deployment started", $data);
 
 // Begin deployment process
