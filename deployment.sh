@@ -7,4 +7,4 @@ exit
 fi
 cd /var/www/$1/
 git fetch
-git checkout ${3}
+git -c advice.detachedHead=false checkout ${3}
