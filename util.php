@@ -13,6 +13,16 @@ function tokenize(string $url)
 
 function set_status(string $state, string $description, array $payload)
 {
+    static $didfail = false;
+    if ($state === "failure") {
+        $didfail = true;
+    }
+    if ($didfail && $state === "success") {
+        return; // don't send this
+    }
+    if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
+        return;
+    }
     $ch = curl_init(tokenize($payload["deployment"]["statuses_url"]));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
