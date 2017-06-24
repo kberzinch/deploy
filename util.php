@@ -4,9 +4,10 @@ require_once "config.php";
 
 function tokenize(string $url)
 {
+    global $token
     $clone_url = explode("/", $url);
-    if (isset($token[$clone_url[4]])) {
-        $clone_url[4] = $token."@".$clone_url[4];
+    if (isset($token[$clone_url[2]])) {
+        $clone_url[2] = $token[$clone_url[4]]."@".$clone_url[2];
     }
     return implode("/", $clone_url);
 }
