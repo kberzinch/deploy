@@ -22,6 +22,7 @@ $webhook_secret = 'generate me at randomkeygen.com or wherever';
  * similar format.
  */
 //$token['github.com'] = 'f6609dbf9796004709d3c34e7abbad8fb4a737ad';
+//$token['api.github.com'] = $token['github.com'];
 
 /**
  * If you'd like email notifications when the script runs, set the two
