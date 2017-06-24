@@ -35,6 +35,7 @@ if ($return_value !== 0) {
 $return_value = 0;
 
 if (file_exists('/var/www/'.$payload["repository"]["name"].'/post-deploy-hook.sh')) {
+    echo "\n";
     echo passthru('/bin/bash /var/www/'.$payload["repository"]["name"].'/post-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("error", "The post-deploy-hook encountered an error.");
