@@ -56,7 +56,7 @@ if (isset($email_from, $email_to)) {
         $email_to,
         "[".$data["repository"]["full_name"]."] New deployment triggered",
         ob_get_contents(),
-        "From: ".
+        "From: ".$email_from
     );
 }
 
