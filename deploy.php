@@ -22,7 +22,7 @@ echo "Deployment ID: ".$data["deployment"]["id"]."\n";
 echo "Repository:    ".$data["repository"]["full_name"]."\n";
 echo "Commit:        ".$data["deployment"]["sha"]."\n";
 
-int $return_value;
+$return_value = 0;
 
 echo passthru(
     "/bin/bash ".__DIR__."/deploy.sh ".$data["repository"]["name"]." ".tokenize($data["repository"]["clone_url"])." 2>&1",
@@ -32,6 +32,8 @@ echo passthru(
 if ($return_value !== 0) {
     set_status("failure", "The git operation encountered an error.", $data);
 }
+
+$return_value = 0;
 
 if (file_exists('/var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh')) {
     echo passthru('/bin/bash /var/www/'.$data["repository"]["name"].'/post-deploy-hook.sh 2>&1', $return_value);
