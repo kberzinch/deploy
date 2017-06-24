@@ -22,10 +22,10 @@ if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
 set_status("pending", "Deployment started", $data);
 
 // Begin deployment process
-echo "Delivery ID:   ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n";
-echo "Deployment ID: ".$data["deployment"]["id"]."\n";
-echo "Repository:    ".$data["repository"]["full_name"]."\n";
-echo "Commit:        ".$data["deployment"]["sha"]."\n\n";
+echo "Delivery ID:    ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n";
+echo "Deployment ID:  ".$data["deployment"]["id"]."\n";
+echo "Repository:     ".$data["repository"]["full_name"]."\n";
+echo "Commit:         ".$data["deployment"]["sha"]."\n\n";
 
 $return_value = 0;
 
