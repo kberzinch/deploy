@@ -6,6 +6,7 @@
  */
 function payload()
 {
+    global $webhook_secret;
     list($algo, $hash) = explode('=', $_SERVER["HTTP_X_HUB_SIGNATURE"], 2);
     $payload = file_get_contents('php://input');
     $payloadHash = hash_hmac($algo, $payload, $webhook_secret);
