@@ -23,7 +23,7 @@ function payload()
  * @param  string $url The URL to tokenize
  * @return string      The URL, possibly with an authentication token inserted
  */
-function tokenize(string $url)
+function tokenize($url)
 {
     global $token;
     $clone_url = explode("/", $url);
@@ -38,7 +38,7 @@ function tokenize(string $url)
  * @param  string $url  The GitHub API URL to hit
  * @param  array  $data The data to send
  */
-function github(string $url, array $data)
+function github($url, array $data)
 {
     $ch = curl_init(tokenize($url));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -62,7 +62,7 @@ function github(string $url, array $data)
  * @param string $state       (pending|success|error|inactive|failure)
  * @param string $description A description. This is not displayed anywhere as far as I can tell.
  */
-function set_status(string $state, string $description)
+function set_status($state, $description)
 {
     global $payload;
     static $didfail = false;
