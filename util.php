@@ -6,7 +6,7 @@ function tokenize(string $url)
 {
     $clone_url = explode("/", $url);
     if (isset($token[$clone_url[4]])) {
-        $clone_url[4] = $token."@".$clone_url[4]
+        $clone_url[4] = $token."@".$clone_url[4];
     }
     return implode("/", $clone_url);
 }
