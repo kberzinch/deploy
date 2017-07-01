@@ -2,7 +2,7 @@
 
 if [ ! -d "/var/www/$1/" ]; then
 cd /var/www/
-git clone ${2}
+git clone ${2} ${1}
 exit
 fi
 cd /var/www/$1/
