@@ -22,6 +22,16 @@ echo "Commit:         ".$payload["deployment"]["sha"]."\n\n";
 
 $return_value = 0;
 
+if (file_exists('/var/www/'.$payload["repository"]["name"]."/".$payload["deployment"]["environment"].'/pre-deploy-hook.sh')) {
+    echo "\n";
+    echo passthru('/bin/bash /var/www/'.$payload["repository"]["name"]."/".$payload["deployment"]["environment"].'/pre-deploy-hook.sh 2>&1', $return_value);
+    if ($return_value !== 0) {
+        set_status("failure", "The pre-deploy-hook encountered an error.");
+    }
+}
+
+$return_value = 0;
+
 echo passthru(
     "/bin/bash ".__DIR__."/deployment.sh "
     .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]." "
