@@ -7,5 +7,5 @@ $payload = payload();
 
 // Trigger a deployment if the branch matches
 if ('refs/heads/'.$_GET["branch"] === $payload["ref"]) {
-    trigger_deployment();
+    trigger_deployment($_GET["environment"]);
 }
