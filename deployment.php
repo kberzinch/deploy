@@ -20,11 +20,14 @@ echo "Environment:    ".$payload["deployment"]["environment"]."\n";
 echo "Repository:     ".$payload["repository"]["full_name"]."\n";
 echo "Commit:         ".$payload["deployment"]["sha"]."\n\n";
 
+$this_instance = $payload["repository"]["name"]."/".$payload["deployment"]["environment"];
+$directory = '/var/www/'.$this_instance;
+
 $return_value = 0;
 
-if (file_exists('/var/www/'.$payload["repository"]["name"]."/".$payload["deployment"]["environment"].'/pre-deploy-hook.sh')) {
+if (file_exists($directory.'/pre-deploy-hook.sh')) {
     echo "\n";
-    echo passthru('/bin/bash /var/www/'.$payload["repository"]["name"]."/".$payload["deployment"]["environment"].'/pre-deploy-hook.sh 2>&1', $return_value);
+    echo passthru('/bin/bash '.$directory.'/pre-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("failure", "The pre-deploy-hook encountered an error.");
     }
@@ -46,9 +49,9 @@ if ($return_value !== 0) {
 
 $return_value = 0;
 
-if (file_exists('/var/www/'.$payload["repository"]["name"]."/".$payload["deployment"]["environment"].'/post-deploy-hook.sh')) {
+if (file_exists($directory.'/post-deploy-hook.sh')) {
     echo "\n";
-    echo passthru('/bin/bash /var/www/'.$payload["repository"]["name"]."/".$payload["deployment"]["environment"].'/post-deploy-hook.sh 2>&1', $return_value);
+    echo passthru('/bin/bash '.$directory.'/post-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("failure", "The post-deploy-hook encountered an error.");
     }
@@ -64,10 +67,10 @@ if (isset($email_from, $email_to)) {
     );
 }
 
-mkdir(__DIR__."/".$payload["repository"]["name"]."/".$payload["deployment"]["environment"], 0700, true);
+mkdir(__DIR__."/".$this_instance, 0700, true);
 
 file_put_contents(
-    __DIR__."/".$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"].".html",
+    __DIR__."/".$this_instance."/".$payload["deployment"]["sha"].".html",
     '<pre>'.ob_get_contents().'</pre>'
 );
 
