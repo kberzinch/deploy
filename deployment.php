@@ -1,5 +1,8 @@
 <?php
 
+// This script is allowed to run for up to 10 minutes.
+set_time_limit(600);
+
 require_once 'config.php';
 require_once 'util.php';
 
