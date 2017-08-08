@@ -14,6 +14,11 @@ if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
     $payload["deployment"]["environment"] = "production";
 }
 
+if ($payload["deployment"]["environment"] === "github-pages") {
+    echo "Not deploying GitHub Pages build."
+    exit;
+}
+
 set_status("pending", "Deployment started");
 
 // Begin deployment process
