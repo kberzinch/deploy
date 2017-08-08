@@ -15,7 +15,7 @@ if ($_SERVER["HTTP_X_GITHUB_EVENT"] !== "deployment") {
 }
 
 if ($payload["deployment"]["environment"] === "github-pages") {
-    echo "Not deploying GitHub Pages build."
+    echo "Not deploying GitHub Pages build.";
     exit;
 }
 
