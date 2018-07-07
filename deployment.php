@@ -37,6 +37,7 @@ if (file_exists($directory.'/pre-deploy-hook.sh')) {
     echo passthru('/bin/bash '.$directory.'/pre-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("failure", "The pre-deploy-hook encountered an error.");
+		goto finish
     }
 }
 
@@ -52,6 +53,7 @@ echo passthru(
 
 if ($return_value !== 0) {
     set_status("failure", "The git operation encountered an error.");
+	goto finish
 }
 
 $return_value = 0;
@@ -61,9 +63,11 @@ if (file_exists($directory.'/post-deploy-hook.sh')) {
     echo passthru('/bin/bash '.$directory.'/post-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("failure", "The post-deploy-hook encountered an error.");
+		goto finish
     }
 }
 
+finish:
 // Transmit and store completion information
 if (isset($email_from, $email_to)) {
     mail(
