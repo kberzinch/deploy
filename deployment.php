@@ -34,7 +34,6 @@ $directory = '/var/www/'.$this_instance;
 $return_value = 0;
 
 if (file_exists($directory.'/pre-deploy-hook.sh')) {
-    echo "\n";
     echo passthru('/bin/bash '.$directory.'/pre-deploy-hook.sh 2>&1', $return_value);
     if ($return_value !== 0) {
         set_status("failure", "The pre-deploy-hook encountered an error.");
