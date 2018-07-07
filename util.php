@@ -83,7 +83,7 @@ function set_status($state, $description)
         array(
             "state" => $state,
             "log_url" => "https://".$_SERVER["SERVER_NAME"]."/"
-                .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"],
+                .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"],
             "description" => $description
         )
     );

@@ -78,10 +78,10 @@ if (isset($email_from, $email_to)) {
     );
 }
 
-mkdir(__DIR__."/".$this_instance, 0700, true);
+mkdir(__DIR__."/".$this_instance."/".$payload["deployment"]["sha"], 0700, true);
 
 file_put_contents(
-    __DIR__."/".$this_instance."/".$payload["deployment"]["sha"].".html",
+    __DIR__."/".$this_instance."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"].".html",
     '<pre>'.ob_get_contents().'</pre>'
 );
 
