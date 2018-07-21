@@ -1,0 +1,5 @@
+{
+    "require": {
+        "kelvinmo/simplejwt": "^0.1.5"
+    }
+}

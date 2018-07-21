@@ -11,20 +11,6 @@
 $webhook_secret = 'generate me at randomkeygen.com or wherever';
 
 /**
- * If provided below, a personal access token will be used to clone new
- * repositories and publish deployment status information to the GitHub API.
- *
- * Generate a personal access token here: https://github.com/settings/tokens
- * If you want to be fancy, you can also get a real OAuth token. This is left
- * as an exercise for the reader.
- *
- * You can also add GitHub Enterprise credentials using the hostname in a
- * similar format.
- */
-//$token['github.com'] = 'f6609dbf9796004709d3c34e7abbad8fb4a737ad';
-//$token['api.github.com'] = $token['github.com'];
-
-/**
  * If you'd like email notifications when the script runs, set the two
  * variables below.
  */
@@ -35,3 +21,22 @@ $webhook_secret = 'generate me at randomkeygen.com or wherever';
  * If set to false, emails will only be sent when an error is detected.
  */
 $always_email = true;
+
+/**
+ * The location of the private key for your GitHub app here.
+ */
+$private_key["github.com"] = '/opt/deploy/your-github-app.pem';
+
+/**
+ * The ID of your GitHub app
+ */
+$app_id["github.com"] = 15018;
+
+/**
+ * Per-repository configuration in the below format
+ * First key is repository
+ * Second key is event (either push or status)
+ * Third key is branch
+ * Value is environment
+ */
+$repositories['deploy']['push']['master'] = 'production';

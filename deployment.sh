@@ -6,5 +6,5 @@ git clone ${2} ${1}
 exit
 fi
 cd /var/www/$1/
-git fetch
+git fetch ${2}
 git -c advice.detachedHead=false checkout ${3}
