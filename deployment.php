@@ -37,7 +37,7 @@ file_put_contents($log_location."/plain.txt",
     "Deployment ID:  ".$payload["deployment"]["id"]."\n".
     "Environment:    ".$payload["deployment"]["environment"]."\n".
     "Repository:     ".$payload["repository"]["full_name"]."\n".
-    "Commit:         ".$payload["deployment"]["sha"]."\n\n".
+    "Commit:         ".$payload["deployment"]["sha"]."\n\n"
 );
 
 file_put_contents($log_location."/title", $payload["deployment"]["environment"]." | ".$payload["repository"]["full_name"]);
