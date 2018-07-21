@@ -121,6 +121,7 @@ function token()
     global $payload;
     global $private_key;
     global $app_id;
+    global $token;
 
     $key = new SimpleJWT\Keys\RSAKey(file_get_contents($private_key[which_github()]), 'pem');
     $set = new SimpleJWT\Keys\KeySet();
@@ -130,7 +131,7 @@ function token()
     $claims = array('iss' => $app_id[which_github()], 'exp' => time() + 5);
     $jwt = new SimpleJWT\JWT($headers, $claims);
 
-    global $token = $jwt->encode($set);
+    $token = $jwt->encode($set);
 
     $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
 
