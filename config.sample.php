@@ -30,3 +30,8 @@ $webhook_secret = 'generate me at randomkeygen.com or wherever';
  */
 //$email_from = 'deploy@example.com';
 //$email_to = 'you@example.com';
+
+/**
+ * If set to false, emails will only be sent when an error is detected.
+ */
+$always_email = true;
