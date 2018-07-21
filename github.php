@@ -25,7 +25,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
                 exit;
             }
             echo "Requesting deployment of ".$branch." to ".$repositories[$repo]["status"][$branch]."\n";
-            trigger_deployment($repositories[$repo]["status"][$branch]);
+            trigger_deployment($payload["sha"], $repositories[$repo]["status"][$branch]);
         } else {
             echo "No applicable configuration found.\n\n";
             echo "Repository: ".$repo."\n";
@@ -39,7 +39,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         if (isset($repositories[$repo]["push"][$branch])) {
             echo "Requesting deployment of ".$branch." to ".$repositories[$repo]["push"][$branch]."\n";
             $token = token();
-            trigger_deployment($repositories[$repo]["push"][$branch]);
+            trigger_deployment($payload["ref"], $repositories[$repo]["push"][$branch]);
         } else {
             echo "No applicable configuration found.\n\n";
             echo "Repository: ".$repo."\n";

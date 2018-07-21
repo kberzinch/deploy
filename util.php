@@ -99,13 +99,13 @@ function set_status($state, $description)
 /**
  * Triggers a deployment for the ref that triggered this event
  */
-function trigger_deployment($environment)
+function trigger_deployment($ref, $environment)
 {
     global $payload;
     github(
         $payload["repository"]["deployments_url"],
         array(
-            "ref" => $payload["ref"],
+            "ref" => $ref,
             "environment" => $environment
         ),
         "triggering deployment"
