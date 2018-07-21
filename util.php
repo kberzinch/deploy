@@ -130,7 +130,7 @@ function token()
     $claims = array('iss' => $app_id[which_github()], 'exp' => time() + 5);
     $jwt = new SimpleJWT\JWT($headers, $claims);
 
-    $token = $jwt->encode($set);
+    global $token = $jwt->encode($set);
 
     $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
 
