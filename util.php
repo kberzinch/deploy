@@ -36,7 +36,7 @@ function add_access_token($url)
  * @param  string $url  The GitHub API URL to hit
  * @param  array  $data The data to send
  */
-function github($url, mixed $data, $action = "", $accept = "application/vnd.github.machine-man-preview+json", $method = "POST", $expected_status = 201)
+function github($url, array $data, $action = "", $accept = "application/vnd.github.machine-man-preview+json", $method = "POST", $expected_status = 201)
 {
     global $token;
     $ch = curl_init($url);
@@ -136,7 +136,7 @@ function token()
 
     $access_token = github(
         "https://".$api_base."/installations/".$payload["installation"]["id"]."/access_tokens",
-        "",
+        [],
         "getting access token"
     );
 
@@ -155,7 +155,7 @@ function get_commit_status()
 
     $status = github(
         $payload["commit"]["url"]."/status",
-        "",
+        [],
         "getting commit status",
         "application/vnd.github.machine-man-preview+json",
         "GET",
