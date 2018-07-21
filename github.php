@@ -52,7 +52,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             echo "Not deploying GitHub Pages build.";
             exit;
         } else {
-            echo "Starting deployment to ".$payload["deployment"]["environment"]." - watch logs at "."https://".$_SERVER["SERVER_NAME"]."/".$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"];
+            echo "Deployed ".$payload["repository"]["full_name"]." to ".$payload["deployment"]["environment"]."\nhttps://".$_SERVER["SERVER_NAME"]."/".$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]."/plain.txt";
         }
         $token = token();
 
