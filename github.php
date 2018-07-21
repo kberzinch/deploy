@@ -15,13 +15,13 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         break;
     case "status":
         $repo = $payload["repository"]["name"];
-        $branch = substr($payload["ref"], 11);
+        $branch = $payload["branches"][0]["name"];
         if (isset($repositories[$repo]["status"][$branch])) {
             // Verify commit status is good
             $token = token();
             $status = get_commit_status();
             if ($status !== "success") {
-                echo "Current commit status of ".$payload["sha"]." is ".$status." - not deploying yet";
+                echo "Current commit status of ".$payload["sha"]." is ".$status." - not deploying";
                 exit;
             }
             echo "Requesting deployment of ".$branch." to ".$repositories[$repo]["status"][$branch]."\n";
