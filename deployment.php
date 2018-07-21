@@ -30,8 +30,8 @@ $log_location = __DIR__."/".$this_instance."/".$payload["deployment"]["sha"]."/"
 
 mkdir($log_location, 0700, true);
 
-copy(__DIR__."/log-index.html", $log_location."/index.html")
-copy(__DIR__."/worker.js", $log_location."/worker.js")
+copy(__DIR__."/log-index.html", $log_location."/index.html");
+copy(__DIR__."/worker.js", $log_location."/worker.js");
 file_put_contents($log_location."/plain.txt",
     "Delivery ID:    ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n".
     "Deployment ID:  ".$payload["deployment"]["id"]."\n".
