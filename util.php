@@ -92,7 +92,7 @@ function set_status($state, $description)
             "description" => $description
         ),
         "setting status",
-	      "application/vnd.github.ant-man-preview+json"
+        "application/vnd.github.ant-man-preview+json"
     );
 }
 
@@ -116,7 +116,8 @@ function trigger_deployment($environment)
  * Fetches an installation token for other components to use
  * @return string a GitHub App access token for interacting with the repository
  */
-function token() {
+function token()
+{
     global $payload;
     global $private_key;
     global $app_id;
@@ -146,10 +147,11 @@ function token() {
  * Checks the commit status for the current commit
  * @return string one of pending, success, failure, error
  */
-function get_commit_status() {
-  	global $payload;
-  	global $token;
-  	global $app_id;
+function get_commit_status()
+{
+    global $payload;
+    global $token;
+    global $app_id;
 
     $status = github(
         $payload["commit"]["url"]."/status",
@@ -168,7 +170,8 @@ function get_commit_status() {
  * registration information.
  * @return string primary GitHub domain
  */
-function which_github() {
-  global $payload;
-  return explode("/", $payload["repository"]["clone_url"])[2];
+function which_github()
+{
+    global $payload;
+    return explode("/", $payload["repository"]["clone_url"])[2];
 }
