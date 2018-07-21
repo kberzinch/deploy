@@ -137,7 +137,7 @@ function token() {
         "https://".$api_base."/installations/".$payload["installation"]["id"]."/access_tokens",
         "",
         "getting access token"
-    )
+    );
 
     return $access_token["token"];
 }
