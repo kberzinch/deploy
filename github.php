@@ -51,6 +51,8 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         if ($payload["deployment"]["environment"] === "github-pages") {
             echo "Not deploying GitHub Pages build.";
             exit;
+        } else {
+            echo "Starting deployment to ".$payload["deployment"]["environment"]." - watch logs at "."https://".$_SERVER["SERVER_NAME"]."/".$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"];
         }
         $token = token();
 
