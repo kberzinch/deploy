@@ -12,15 +12,15 @@ if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
     );
 }
 
-if (time() - intval($_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"]) > 60) {
+if (time() - intval($_SERVER["HTTP_X_SLACK_REQUEST_TIMESTAMP"]) > 60) {
     die('Signature expired ('.(time() - intval($_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"])).'). Contact <@'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.');
 }
 
-$payload = 'v0:'.$_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"].":".file_get_contents('php://input');
+$payload = 'v0:'.$_SERVER["HTTP_X_SLACK_REQUEST_TIMESTAMP"].":".file_get_contents('php://input');
 $payloadHash = hash_hmac("SHA256", $payload, $slack_signing_secret);
 
 // Make sure the signature matches
-if ($_SERVER["HTTP_X-SLACK-SIGNATURE"] !== "v0=".$payloadHash) {
+if ($_SERVER["HTTP_X_SLACK_SIGNATURE"] !== "v0=".$payloadHash) {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
         die(
             'Signature verification failed. Check to make sure signing secrets match between Slack and your server.'
