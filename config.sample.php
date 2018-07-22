@@ -65,7 +65,7 @@ $slack_gh_org['TXXXXXXXX'] = 'YourGitHubOrg';
 /**
  * Array of Slack teams, channels, and repositories
  */
-$slack_channel_repos['TXXXXXXXX']['CXXXXXXXX'] = ['']
+$slack_channel_repos['TXXXXXXXX']['CXXXXXXXX'] = [''];
 
 /**
  * Installation IDs for each repository available Slack deployments
@@ -81,4 +81,4 @@ $which_github['YourGitHubOrg/your-repository'] = 'github.com';
 /**
  * List of valid environments
  */
-$environments = ['production']
+$environments = ['production'];
