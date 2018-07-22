@@ -90,7 +90,7 @@ if (count($repos_for_channel) === 0) {
     if (!in_array($input[1], $environments)) {
         die('Environment must be one of *'.implode(", ", $environments).'*');
     }
-    $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
+    $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]]."/".$repos_for_channel[0];
     $payload["installation"]["id"] = $github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
     $token = token();
     github(
