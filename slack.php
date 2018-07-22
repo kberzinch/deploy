@@ -99,9 +99,7 @@ if (count($repos_for_channel) === 0) {
     }
     $payload = [];
     $payload["repository"] = [];
-    $payload["installation"] = [];
     $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
-    $payload["installation"]["id"] = $github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
     $token = token();
     $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
     github(

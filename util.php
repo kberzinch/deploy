@@ -138,6 +138,19 @@ function token()
 
     $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
 
+    if (!isset($payload["installation"]["id"])) {
+        $installation = github(
+            "https://".$api_base."/repos/".$payload["repository"]["full_name"]."/installation",
+            [],
+            "getting installation information",
+            "application/vnd.github.machine-man-preview+json",
+            "GET",
+            200
+        );
+        $payload["installation"] = [];
+        $payload["installation"]["id"] = $installation["id"];
+    }
+
     $access_token = github(
         "https://".$api_base."/installations/".$payload["installation"]["id"]."/access_tokens",
         [],
