@@ -101,7 +101,7 @@ if (count($repos_for_channel) === 0) {
     if (count($input) !== 3) {
         die('Please provide a repository, git ref, and environment name.');
     }
-    if (!in_array($input[0], $repos_for_channels)) {
+    if (!in_array($input[0], $repos_for_channel)) {
         die('Repository must be one of *'.implode(", ", $repos_for_channel).'*');
     }
     if (!in_array($input[2], $environments)) {
