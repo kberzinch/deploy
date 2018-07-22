@@ -90,7 +90,7 @@ if (count($repos_for_channel) === 0) {
             "ref" => $input[0],
             "environment" => $input[1],
             "auto_merge" => false,
-        ]
+        ],
         "triggering deployment"
     );
 } else {
