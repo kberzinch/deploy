@@ -112,7 +112,7 @@ if (count($repos_for_channel) === 0) {
             "ref" => $input[1],
             "environment" => $input[2],
             "auto_merge" => false,
-        ]
+        ],
         "triggering deployment"
     );
 }
