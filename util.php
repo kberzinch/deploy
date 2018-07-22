@@ -42,12 +42,12 @@ function github($url, array $data, $action = "", $accept = "application/vnd.gith
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         "Accept: ".$accept,
         "User-Agent: GitHub App ID ".$app_id,
         "Authorization: Bearer ".$token
-    ));
+    ]);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     $response = curl_exec($ch);
     if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== $expected_status) {
@@ -85,12 +85,12 @@ function set_status($state, $description)
     }
     github(
         $payload["deployment"]["statuses_url"],
-        array(
+        [
             "state" => $state,
             "log_url" => "https://".$_SERVER["SERVER_NAME"]."/"
                 .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"].($state === "pending" ? "" : "/plain.txt"),
             "description" => $description
-        ),
+        ],
         "setting status",
         "application/vnd.github.ant-man-preview+json"
     );
@@ -104,10 +104,10 @@ function trigger_deployment($ref, $environment)
     global $payload;
     github(
         $payload["repository"]["deployments_url"],
-        array(
+        [
             "ref" => $ref,
             "environment" => $environment
-        ),
+        ],
         "triggering deployment"
     );
 }
@@ -127,8 +127,8 @@ function token()
     $set = new SimpleJWT\Keys\KeySet();
     $set->add($key);
 
-    $headers = array('alg' => 'RS256', 'typ' => 'JWT');
-    $claims = array('iss' => $app_id[which_github()], 'exp' => time() + 5);
+    $headers = ['alg' => 'RS256', 'typ' => 'JWT'];
+    $claims = ['iss' => $app_id[which_github()], 'exp' => time() + 5];
     $jwt = new SimpleJWT\JWT($headers, $claims);
 
     $token = $jwt->encode($set);
