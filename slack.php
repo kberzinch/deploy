@@ -116,3 +116,5 @@ if (count($repos_for_channel) === 0) {
         "triggering deployment"
     );
 }
+
+echo '{"response_type": "in_channel"}';
