@@ -15,28 +15,15 @@ if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
     );
 }
 
-if (time() - intval($_SERVER["HTTP_X_SLACK_REQUEST_TIMESTAMP"]) > 60) {
-    die('Signature expired ('.(time() - intval($_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"])).'). Contact <@'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.');
-}
-
-$payload = 'v0:'.$_SERVER["HTTP_X_SLACK_REQUEST_TIMESTAMP"].":".file_get_contents('php://input');
-
-foreach ($slack_signing_secret as $secret) {
-    $payloadHash = hash_hmac("SHA256", $payload, $secret);
-    if ($_SERVER["HTTP_X_SLACK_SIGNATURE"] === "v0=".$payloadHash) {
-        break;
-    }
-}
-
 // Make sure the signature matches
-if ($_SERVER["HTTP_X_SLACK_SIGNATURE"] !== "v0=".$payloadHash) {
+if ($_POST["token"] !== $_POST[$slack_token[$_POST["team_id"]]]) {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
         die(
-            'Signature verification failed. Check to make sure signing secrets match between Slack and your server.'
+            'Slack sent a bad token. Check to make sure the token matches between Slack and your server.'
         );
     } else {
         die(
-            'Signature verification failed. Contact <@'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.'
+            'Slack sent a bad token. Contact <@'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.'
         );
     }
 }
@@ -49,9 +36,8 @@ if ($_POST["text"] === "config") {
         }
         echo "\n*GitHub account:* ".$slack_gh_org[$_POST["team_id"]]."\n*Repositories for this channel:*";
         foreach ($slack_channel_repos[$_POST["team_id"]][$_POST["channel_id"]] as $repo) {
-            echo ' '.$repo.' '.(isset($github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? "(".$github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "(missing IID");
+            echo ' '.$repo;
             echo '@'.(isset($which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? $which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "missing which github");
-            echo "),";
         }
         die();
     } else {
