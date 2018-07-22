@@ -42,9 +42,9 @@ $app_id["github.com"] = 15018;
 $repositories['deploy']['push']['master'] = 'production';
 
 /**
- * Token for Slack slash command
+ * Signing secret for Slack slash command
  */
-$slack_token = 'generate me at randomkeygen.com or wherever';
+$slack_signing_secret = 'generate me at randomkeygen.com or wherever';
 
 /**
  * Owning user IDs for each team where this slash command is installed

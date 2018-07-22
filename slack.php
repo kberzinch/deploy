@@ -8,19 +8,26 @@ header("Content-Type: application/json");
 // Make sure this workspace has an owner
 if (!in_array($_POST["team_id"], $slack_owner_id)) {
     die(
-        'This workspace isn\'t configured for deployments yet - contact your DevOps lead. Workspace ID: '.$_POST["team_id"]
+        'This workspace isn\'t configured for deployments yet. Contact your DevOps lead.\n\nWorkspace ID: '.$_POST["team_id"].'\nUser ID: '.$_POST["user_id"]
     );
 }
 
-// Make sure the token matches what it should be
-if ($_POST["token"] !== $slack_token) {
+if (time() - intval($_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"]) > 60) {
+    die('Signature expired. Contact <'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.')
+}
+
+$payload = 'v0:'.$_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"].":".file_get_contents('php://input');
+$payloadHash = hash_hmac("SHA256", $payload, $slack_signing_secret);
+
+// Make sure the signature matches
+if ($_SERVER["HTTP_X-SLACK-SIGNATURE"] !== "v0=".$payloadHash) {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
         die(
-            'Slack sent an invalid token.\n\nExpected:'.$slack_token.'\nReceived:'.$_POST["token"]
+            'Signature verification failed. Check to make sure signing secrets match between Slack and your server.'
         );
     } else {
         die(
-            'Slack sent an invalid token - contact <'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.'
+            'Signature verification failed. contact <'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.'
         );
     }
 }
