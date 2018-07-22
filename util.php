@@ -46,7 +46,7 @@ function github($url, array $data, $action = "", $accept = "application/vnd.gith
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         "Accept: ".$accept,
-        "User-Agent: GitHub App ID ".$app_id,
+        "User-Agent: GitHub App ID ".$app_id[which_github()],
         "Authorization: Bearer ".$token
     ]);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -155,7 +155,6 @@ function get_commit_status()
 {
     global $payload;
     global $token;
-    global $app_id;
 
     $status = github(
         $payload["commit"]["url"]."/status",
