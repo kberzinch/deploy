@@ -13,7 +13,7 @@ if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
 }
 
 if (time() - intval($_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"]) > 60) {
-    die('Signature expired. Contact <@'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.');
+    die('Signature expired ('.time() - intval($_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"])'). Contact <@'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.');
 }
 
 $payload = 'v0:'.$_SERVER["HTTP_X-SLACK-REQUEST-TIMESTAMP"].":".file_get_contents('php://input');
