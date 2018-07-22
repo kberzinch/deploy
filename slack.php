@@ -9,7 +9,7 @@ header("Content-Type: application/json");
 if (!in_array($_POST["team_id"], $slack_owner_id)) {
     die(
         'This workspace isn\'t configured for deployments yet - contact your DevOps lead. Workspace ID: '.$_POST["team_id"]
-    };
+    );
 }
 
 // Make sure the token matches what it should be
