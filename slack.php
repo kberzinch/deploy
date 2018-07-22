@@ -40,7 +40,7 @@ if ($_POST["text"] === "config") {
         }
         echo "\n*GitHub account:* ".$slack_gh_org[$_POST["team_id"]]."\n*Repositories for this channel:*";
         foreach ($slack_channel_repos[$_POST["team_id"]][$_POST["channel_id"]] as $repo) {
-            echo ' '.$repo.' '.(isset($github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? "(IID: ".$github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "(missing IID");
+            echo ' '.$repo.' '.(isset($github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? "(".$github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "(missing IID");
             echo '@'.(isset($which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? $which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "missing which github");
             echo "),";
         }
@@ -52,7 +52,7 @@ if ($_POST["text"] === "config") {
     }
 }
 
-if (!in_array($_POST["channel_id"], $slack_channel_repos[$_POST["team_id"]])) {
+if (!array_key_exists($_POST["channel_id"], $slack_channel_repos[$_POST["team_id"]])) {
     die(
         "This command can't be used in this channel."
     );
