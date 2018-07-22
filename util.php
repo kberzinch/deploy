@@ -39,6 +39,7 @@ function add_access_token($url)
 function github($url, array $data, $action = "", $accept = "application/vnd.github.machine-man-preview+json", $method = "POST", $expected_status = 201)
 {
     global $token;
+    global $is_slack;
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
@@ -54,7 +55,9 @@ function github($url, array $data, $action = "", $accept = "application/vnd.gith
         echo "Error ".$action."\n";
         echo "[".curl_getinfo($ch, CURLINFO_HTTP_CODE)."] ";
         var_dump($response);
-        http_response_code(500);
+        if (!$is_slack) {
+            http_response_code(500);
+        }
         curl_close($ch);
         exit;
     }

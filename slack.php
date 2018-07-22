@@ -5,6 +5,8 @@ require_once 'util.php';
 
 header("Content-Type: application/json");
 
+$is_slack = true;
+
 // Make sure this workspace has an owner
 if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
     die(
