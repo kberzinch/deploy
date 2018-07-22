@@ -68,7 +68,7 @@ $slack_gh_org['TXXXXXXXX'] = 'YourGitHubOrg';
 $slack_channel_repos['TXXXXXXXX']['CXXXXXXXX'] = [''];
 
 /**
- * Which GitHub has your repositories?
+ * Which GitHub has your repository?
  */
 $which_github['YourGitHubOrg/your-repository'] = 'github.com';
 

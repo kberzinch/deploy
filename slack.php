@@ -85,7 +85,8 @@ if (count($repos_for_channel) === 0) {
     }
     $payload = [];
     $payload["repository"] = [];
-    $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
+    $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
+    $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
     $token = token();
     $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
     github(
@@ -107,8 +108,10 @@ if (count($repos_for_channel) === 0) {
     if (!in_array($input[2], $environments)) {
         die('Environment must be one of *'.implode(", ", $environments).'*');
     }
-    $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$input[0]];
-    $payload["installation"]["id"] = $github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$input[0]];
+    $payload = [];
+    $payload["repository"] = [];
+    $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
+    $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
     $token = token();
     github(
         'https://'.$api_base.'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",

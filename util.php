@@ -121,38 +121,12 @@ function trigger_deployment($ref, $environment)
  */
 function token()
 {
-    global $payload;
-    global $private_key;
-    global $app_id;
     global $token;
 
-    $key = new SimpleJWT\Keys\RSAKey(file_get_contents($private_key[which_github()]), 'pem');
-    $set = new SimpleJWT\Keys\KeySet();
-    $set->add($key);
-
-    $headers = ['alg' => 'RS256', 'typ' => 'JWT'];
-    $claims = ['iss' => $app_id[which_github()], 'exp' => time() + 5];
-    $jwt = new SimpleJWT\JWT($headers, $claims);
-
-    $token = $jwt->encode($set);
-
-    $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
-
-    if (!isset($payload["installation"]["id"])) {
-        $installation = github(
-            "https://".$api_base."/repos/".$payload["repository"]["full_name"]."/installation",
-            [],
-            "getting installation information",
-            "application/vnd.github.machine-man-preview+json",
-            "GET",
-            200
-        );
-        $payload["installation"] = [];
-        $payload["installation"]["id"] = $installation["id"];
-    }
+    $token = app_token();
 
     $access_token = github(
-        "https://".$api_base."/installations/".$payload["installation"]["id"]."/access_tokens",
+        api_base()."/installations/".installation_id()."/access_tokens",
         [],
         "getting access token"
     );
@@ -190,4 +164,59 @@ function which_github()
 {
     global $payload;
     return explode("/", $payload["repository"]["clone_url"])[2];
+}
+
+/**
+ * Gets an app JWT
+ * @return string JWT for this GitHub
+ */
+function app_token()
+{
+    global $payload;
+    global $private_key;
+    global $app_id;
+
+    $key = new SimpleJWT\Keys\RSAKey(file_get_contents($private_key[which_github()]), 'pem');
+    $set = new SimpleJWT\Keys\KeySet();
+    $set->add($key);
+
+    $headers = ['alg' => 'RS256', 'typ' => 'JWT'];
+    $claims = ['iss' => $app_id[which_github()], 'exp' => time() + 5];
+    $jwt = new SimpleJWT\JWT($headers, $claims);
+
+    return $jwt->encode($set);
+}
+
+/**
+ * Provides the installation ID for this event.
+ */
+function installation_id()
+{
+    global $payload;
+    global $token;
+
+    if (isset($payload["installation"]["id"])) {
+        return $payload["installation"]["id"];
+    } else {
+        if (!isset($token)) {
+            $token = app_token();
+        }
+        $installation = github(
+            api_base()."/repos/".$payload["repository"]["full_name"]."/installation",
+            [],
+            "getting installation information",
+            "application/vnd.github.machine-man-preview+json",
+            "GET",
+            200
+        );
+    }
+}
+
+/**
+ * Returns base API URL for this event
+ * @return string the GitHub API base URL
+ */
+function api_base()
+{
+    return "https://".($api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3");
 }
