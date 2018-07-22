@@ -27,7 +27,7 @@ if ($_POST["token"] !== $slack_token) {
 
 if ($_POST["text"] === "config") {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
-        echo '*Basic checks passed:* :heavy_check_mark:\n*Authorized users:*'
+        echo '*Basic checks passed:* :heavy_check_mark:\n*Authorized users:*';
         foreach ($slack_authorized_users[$_POST["team_id"]] as $user) {
             echo ' <'.$user.'>'
         }
