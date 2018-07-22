@@ -20,7 +20,13 @@ if (time() - intval($_SERVER["HTTP_X_SLACK_REQUEST_TIMESTAMP"]) > 60) {
 }
 
 $payload = 'v0:'.$_SERVER["HTTP_X_SLACK_REQUEST_TIMESTAMP"].":".file_get_contents('php://input');
-$payloadHash = hash_hmac("SHA256", $payload, $slack_signing_secret);
+
+foreach ($slack_signing_secret as $secret) {
+    $payloadHash = hash_hmac("SHA256", $payload, $slack_signing_secret);
+    if ($_SERVER["HTTP_X_SLACK_SIGNATURE"] === "v0=".$payloadHash) {
+        break;
+    }
+}
 
 // Make sure the signature matches
 if ($_SERVER["HTTP_X_SLACK_SIGNATURE"] !== "v0=".$payloadHash) {
