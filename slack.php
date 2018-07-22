@@ -71,9 +71,9 @@ if ($_POST["text"] === "help") {
         die("No repositories can be deployed from this channel.");
     }
     die(
-        "The following repositories can be deployed from this channel: ".
+        "The following repositories can be deployed from this channel: *".
         implode(", ", $repos_for_channel).
-        "\n\nTo trigger a deployment, use */deploy*".(count($repos_for_channel) > 1 ? " [repository]" : "")." [git ref] [environment]"
+        "*\n\nTo trigger a deployment, use */deploy".(count($repos_for_channel) > 1 ? " [repository]" : "")." [git ref] [environment]*"
     );
 }
 
@@ -86,7 +86,7 @@ if (count($repos_for_channel) === 0) {
         die('Please provide a git ref and environment name.');
     }
     if (!in_array($input[1], $environments)) {
-        die('Environment must be one of '.implode(", ", $environments));
+        die('Environment must be one of *'.implode(", ", $environments).'*');
     }
     $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
     $payload["installation"]["id"] = $github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
@@ -105,10 +105,10 @@ if (count($repos_for_channel) === 0) {
         die('Please provide a repository, git ref, and environment name.');
     }
     if (!in_array($input[0], $repos_for_channels)) {
-        die('Repository must be one of '.implode(", ", $repos_for_channel));
+        die('Repository must be one of *'.implode(", ", $repos_for_channel).'*');
     }
     if (!in_array($input[2], $environments)) {
-        die('Environment must be one of '.implode(", ", $environments));
+        die('Environment must be one of *'.implode(", ", $environments).'*');
     }
     $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$input[0]];
     $payload["installation"]["id"] = $github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$input[0]];
