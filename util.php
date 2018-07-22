@@ -206,6 +206,7 @@ function installation_id()
             "GET",
             200
         );
+        return $installation["id"];
     }
 }
 
