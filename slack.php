@@ -16,7 +16,7 @@ if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
 }
 
 // Make sure the signature matches
-if ($_POST["token"] !== $_POST[$slack_token[$_POST["team_id"]]]) {
+if ($_POST["token"] !== $slack_token[$_POST["team_id"]]) {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
         die(
             "Slack sent a bad token. Check to make sure the token matches between Slack and your server.\nWorkspace ID: ".$_POST["team_id"]
