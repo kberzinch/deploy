@@ -6,7 +6,7 @@ require_once 'util.php';
 header("Content-Type: application/json");
 
 // Make sure this workspace has an owner
-if (!in_array($_POST["team_id"], $slack_owner_id)) {
+if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
     die(
         "This workspace isn't configured for deployments yet. Contact your DevOps lead.\n\nWorkspace ID: ".$_POST["team_id"]."\nUser ID: ".$_POST["user_id"]
     );
