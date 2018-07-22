@@ -40,3 +40,45 @@ $app_id["github.com"] = 15018;
  * Value is environment
  */
 $repositories['deploy']['push']['master'] = 'production';
+
+/**
+ * Token for Slack slash command
+ */
+$slack_token = 'generate me at randomkeygen.com or wherever';
+
+/**
+ * Owning user IDs for each team where this slash command is installed
+ * This person will be mentioned if there is an error.
+ */
+$slack_owner_id['TXXXXXXXX'] = '@UXXXXXXXX';
+
+/**
+ * Array of users on each team authorized to trigger deployments from Slack
+ */
+$slack_authorized_users['TXXXXXXXX'] = ['@UXXXXXXXX'];
+
+/**
+ * GitHub account for deployments - allows referencing only a repo in a channel
+ */
+$slack_gh_org['TXXXXXXXX'] = 'YourGitHubOrg';
+
+/**
+ * Array of Slack teams, channels, and repositories
+ */
+$slack_channel_repos['TXXXXXXXX']['CXXXXXXXX'] = ['']
+
+/**
+ * Installation IDs for each repository available Slack deployments
+ * This is normally provided from GitHub webhooks, but we don't have that from Slack
+ */
+$github_installation_ids['YourGitHubOrg/your-repository'] = 12345;
+
+/**
+ * Which GitHub has your repositories?
+ */
+$which_github['YourGitHubOrg/your-repository'] = 'github.com';
+
+/**
+ * List of valid environments
+ */
+$environments = ['production']
