@@ -8,7 +8,7 @@ header("Content-Type: application/json");
 // Make sure this workspace has an owner
 if (!in_array($_POST["team_id"], $slack_owner_id)) {
     die(
-        'This workspace isn\'t configured for deployments yet. Contact your DevOps lead.\n\nWorkspace ID: '.$_POST["team_id"].'\nUser ID: '.$_POST["user_id"]
+        "This workspace isn't configured for deployments yet. Contact your DevOps lead.\n\nWorkspace ID: ".$_POST["team_id"]."\nUser ID: ".$_POST["user_id"]
     );
 }
 
@@ -27,18 +27,18 @@ if ($_SERVER["HTTP_X-SLACK-SIGNATURE"] !== "v0=".$payloadHash) {
         );
     } else {
         die(
-            'Signature verification failed. contact <'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.'
+            'Signature verification failed. Contact <'.$slack_owner_id[$_POST["team_id"]].'> for further assistance.'
         );
     }
 }
 
 if ($_POST["text"] === "config") {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
-        echo '*Basic checks passed:* :heavy_check_mark:\n*Authorized users:*';
+        echo "*Basic checks passed:* :heavy_check_mark:\n*Authorized users:*";
         foreach ($slack_authorized_users[$_POST["team_id"]] as $user) {
             echo ' <'.$user.'>';
         }
-        echo '\n*GitHub account:* '.$slack_gh_org[$_POST["team_id"]].'\n*Repositories for this channel:*';
+        echo "\n*GitHub account:* ".$slack_gh_org[$_POST["team_id"]]."\n*Repositories for this channel:*";
         foreach ($slack_channel_repos[$_POST["team_id"]][$_POST["channel_id"]] as $repo) {
             echo ' '.$repo.' '.(isset($github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? "(IID: ".$github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "(missing IID");
             echo '@'.(isset($which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? $which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "missing which github");
