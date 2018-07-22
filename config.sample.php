@@ -50,12 +50,12 @@ $slack_signing_secret = 'generate me at randomkeygen.com or wherever';
  * Owning user IDs for each team where this slash command is installed
  * This person will be mentioned if there is an error.
  */
-$slack_owner_id['TXXXXXXXX'] = '@UXXXXXXXX';
+$slack_owner_id['TXXXXXXXX'] = 'UXXXXXXXX';
 
 /**
  * Array of users on each team authorized to trigger deployments from Slack
  */
-$slack_authorized_users['TXXXXXXXX'] = ['@UXXXXXXXX'];
+$slack_authorized_users['TXXXXXXXX'] = ['UXXXXXXXX'];
 
 /**
  * GitHub account for deployments - allows referencing only a repo in a channel
