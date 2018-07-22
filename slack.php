@@ -1,5 +1,6 @@
 <?php
 
+require __DIR__ . '/vendor/autoload.php';
 require_once 'config.php';
 require_once 'util.php';
 
@@ -90,9 +91,13 @@ if (count($repos_for_channel) === 0) {
     if (!in_array($input[1], $environments)) {
         die('Environment must be one of *'.implode(", ", $environments).'*');
     }
-    $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]]."/".$repos_for_channel[0];
+    $payload = [];
+    $payload["repository"] = [];
+    $payload["installation"] = [];
+    $payload["repository"]["clone_url"] = "https://".$which_github[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
     $payload["installation"]["id"] = $github_installation_ids[$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]];
     $token = token();
+    $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
     github(
         'https://'.$api_base.'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
         [
