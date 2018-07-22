@@ -172,7 +172,6 @@ function which_github()
  */
 function app_token()
 {
-    global $payload;
     global $private_key;
     global $app_id;
 

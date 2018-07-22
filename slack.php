@@ -88,9 +88,8 @@ if (count($repos_for_channel) === 0) {
     $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
     $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
     $token = token();
-    $api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3";
     github(
-        'https://'.$api_base.'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
+        api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
         [
             "ref" => $input[0],
             "environment" => $input[1],
@@ -114,7 +113,7 @@ if (count($repos_for_channel) === 0) {
     $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
     $token = token();
     github(
-        'https://'.$api_base.'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
+        api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
         [
             "ref" => $input[1],
             "environment" => $input[2],
