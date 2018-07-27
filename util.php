@@ -97,7 +97,7 @@ function set_status($state, $description)
         "application/vnd.github.ant-man-preview+json"
     );
     if ($state !== "pending") {
-        file_put_contents($log_location."/plain.txt", "\n# ".$description.".\n");
+        file_put_contents($log_location."/plain.txt", "\n# ".$description."\n", FILE_APPEND);
     }
 }
 

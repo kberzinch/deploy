@@ -74,15 +74,16 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             "Deployment ID:  ".$payload["deployment"]["id"]."\n".
             "Environment:    ".$payload["deployment"]["environment"]."\n".
             "Repository:     ".$payload["repository"]["full_name"]."\n".
-            "Commit:         ".$payload["deployment"]["sha"]."\n\n"
+            "Commit:         ".$payload["deployment"]["sha"]."\n\n",
+            FILE_APPEND
         );
 
-        file_put_contents($log_location."/title", $payload["deployment"]["environment"]." | ".$payload["repository"]["full_name"]);
+        file_put_contents($log_location."/title", $payload["deployment"]["environment"]." | ".$payload["repository"]["full_name"], FILE_APPEND);
 
         set_status("pending", "Deployment started");
 
         if (file_exists($directory.'/pre-deploy-hook.sh')) {
-            file_put_contents($log_location."/plain.txt", "# Executing pre-deploy-hook.sh\n");
+            file_put_contents($log_location."/plain.txt", "# Executing pre-deploy-hook.sh\n", FILE_APPEND);
             echo passthru('/bin/bash -x '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The pre-deploy-hook encountered an error.");
@@ -93,7 +94,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         $return_value = 0;
 
-        file_put_contents($log_location."/plain.txt", "\n# Executing git operations\n");
+        file_put_contents($log_location."/plain.txt", "\n# Executing git operations\n", FILE_APPEND);
 
         echo passthru(
             "/bin/bash -x ".__DIR__."/deployment.sh "
@@ -112,7 +113,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         $return_value = 0;
 
         if (file_exists($directory.'/post-deploy-hook.sh')) {
-            file_put_contents($log_location."/plain.txt", "\n# Executing post-deploy-hook.sh\n");
+            file_put_contents($log_location."/plain.txt", "\n# Executing post-deploy-hook.sh\n", FILE_APPEND);
             echo passthru('/bin/bash -x '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The post-deploy-hook encountered an error.");
