@@ -74,7 +74,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             "Deployment ID:  ".$payload["deployment"]["id"]."\n".
             "Environment:    ".$payload["deployment"]["environment"]."\n".
             "Repository:     ".$payload["repository"]["full_name"]."\n".
-            "Commit:         ".$payload["deployment"]["sha"]."\n\n",
+            "Commit:         ".$payload["deployment"]["sha"]."\n",
             FILE_APPEND
         );
 
@@ -83,7 +83,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         set_status("pending", "Deployment started");
 
         if (file_exists($directory.'/pre-deploy-hook.sh')) {
-            file_put_contents($log_location."/plain.txt", "# Executing pre-deploy-hook.sh\n", FILE_APPEND);
+            file_put_contents($log_location."/plain.txt", "\n# Executing pre-deploy-hook.sh\n", FILE_APPEND);
             passthru('/bin/bash -x -e -o pipefail '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The pre-deploy-hook encountered an error.");
