@@ -13,7 +13,7 @@ exit
 fi
 cd /var/www/$1/
 { set +x; } 2>/dev/null
-echo "git remote set-url origin $(echo ${2} | sed -e "s/x-access-token:.*@/x-access-token:redacted@/g")"
+echo "+ git remote set-url origin $(echo ${2} | sed -e "s/x-access-token:.*@/x-access-token:redacted@/g")"
 git remote set-url origin ${2}
 set -x
 git fetch
