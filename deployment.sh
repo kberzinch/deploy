@@ -5,7 +5,7 @@ cd /var/www/
 # ${2} contains sensitive information, so we will mask it.
 # Yes this is cumbersome.
 { set +x; } 2>/dev/null
-echo "git clone $(echo ${2} | sed -e "s/x-access-token:.*@/x-access-token:redacted@/g") ${1}"
+echo "+ git clone $(echo ${2} | sed -e "s/x-access-token:.*@/x-access-token:redacted@/g") ${1}"
 git clone ${2} ${1}
 set -x
 git -c advice.detachedHead=false checkout ${3}
