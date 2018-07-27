@@ -71,6 +71,7 @@ function github($url, array $data, $action = "", $accept = "application/vnd.gith
 function set_status($state, $description)
 {
     global $payload;
+    global $log_location;
     static $didfail = false;
     if ($state === "failure") {
         $didfail = true;
@@ -95,6 +96,9 @@ function set_status($state, $description)
         "setting status",
         "application/vnd.github.ant-man-preview+json"
     );
+    if ($state !== "pending") {
+        file_put_contents($log_location."/plain.txt", "\n# ".$description.".\n");
+    }
 }
 
 /**
