@@ -82,7 +82,8 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         set_status("pending", "Deployment started");
 
         if (file_exists($directory.'/pre-deploy-hook.sh')) {
-            echo passthru('/bin/bash '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
+            file_put_contents($log_location."/plain.txt", "# Executing pre-deploy-hook.sh\n");
+            echo passthru('/bin/bash -x '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The pre-deploy-hook encountered an error.");
                 $error = true;
@@ -92,8 +93,10 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         $return_value = 0;
 
+        file_put_contents($log_location."/plain.txt", "\n# Executing git operations\n");
+
         echo passthru(
-            "/bin/bash ".__DIR__."/deployment.sh "
+            "/bin/bash -x ".__DIR__."/deployment.sh "
             .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]." "
             .add_access_token($payload["repository"]["clone_url"])
             ." ".$payload["deployment"]["sha"]." >> ".$log_location."/plain.txt 2>&1",
@@ -101,7 +104,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         );
 
         if ($return_value !== 0) {
-            set_status("failure", "The git operation encountered an error.");
+            set_status("failure", "Git operations encountered an error.");
             $error = true;
             goto finish;
         }
@@ -109,8 +112,8 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         $return_value = 0;
 
         if (file_exists($directory.'/post-deploy-hook.sh')) {
-            echo "\n";
-            echo passthru('/bin/bash '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
+            file_put_contents($log_location."/plain.txt", "\n# Executing post-deploy-hook.sh\n");
+            echo passthru('/bin/bash -x '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The post-deploy-hook encountered an error.");
                 $error = true;
