@@ -84,7 +84,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         if (file_exists($directory.'/pre-deploy-hook.sh')) {
             file_put_contents($log_location."/plain.txt", "# Executing pre-deploy-hook.sh\n", FILE_APPEND);
-            echo passthru('/bin/bash -x -e -o pipefail '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
+            passthru('/bin/bash -x -e -o pipefail '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The pre-deploy-hook encountered an error.");
                 $error = true;
@@ -96,7 +96,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         file_put_contents($log_location."/plain.txt", "\n# Executing git operations\n", FILE_APPEND);
 
-        echo passthru(
+        passthru(
             "/bin/bash -x -e -o pipefail ".__DIR__."/deployment.sh "
             .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]." "
             .add_access_token($payload["repository"]["clone_url"])
@@ -114,7 +114,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         if (file_exists($directory.'/post-deploy-hook.sh')) {
             file_put_contents($log_location."/plain.txt", "\n# Executing post-deploy-hook.sh\n", FILE_APPEND);
-            echo passthru('/bin/bash -x -e -o pipefail '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
+            passthru('/bin/bash -x -e -o pipefail '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
             if ($return_value !== 0) {
                 set_status("failure", "The post-deploy-hook encountered an error.");
                 $error = true;
@@ -137,6 +137,6 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         set_status("success", "The deployment completed successfully.");
         break;
     default:
-        echo "Unrecognized event ".$_SERVER["HTTP_X_GITHUB_EVENT"];
+        "Unrecognized event ".$_SERVER["HTTP_X_GITHUB_EVENT"];
         break;
 }
