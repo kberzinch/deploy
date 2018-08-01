@@ -25,7 +25,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
                 exit;
             }
             if (isset($required_status_checks[$payload["repository"]["full_name"]]) && $required_status_checks[$payload["repository"]["full_name"]] !== $status["total_count"]) {
-                echo $status["total_count"]." status checks completed of ".." required - not deploying";
+                echo $status["total_count"]." of ".$required_status_checks[$payload["repository"]["full_name"]]." required status checks completed - not deploying";
                 exit;
             }
             echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to ".$repositories[$repo]["status"][$branch]."\n";
