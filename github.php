@@ -20,8 +20,12 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             // Verify commit status is good
             $token = token();
             $status = get_commit_status();
-            if ($status !== "success") {
+            if ($status["state"] !== "success") {
                 echo "Current commit status of ".$payload["sha"]." is ".$status." - not deploying";
+                exit;
+            }
+            if (isset($required_status_checks[$payload["repository"]["full_name"]]) && $required_status_checks[$payload["repository"]["full_name"]] !== $status["total_count"]) {
+                echo $status["total_count"]." status checks completed of ".." required - not deploying";
                 exit;
             }
             echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to ".$repositories[$repo]["status"][$branch]."\n";

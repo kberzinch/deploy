@@ -42,6 +42,13 @@ $app_id["github.com"] = 15018;
 $repositories['deploy']['push']['master'] = 'production';
 
 /**
+ * How many completed status checks are required to trigger a deployment?
+ *
+ * Useful if multiple status checks run on merge.
+ */
+$required_status_checks['YourGitHubOrg/your-repository'] = 1;
+
+/**
  * Tokens for Slack slash command.
  */
 $slack_token['TXXXXXXXX'] = 'get me from Slack integration configuration';

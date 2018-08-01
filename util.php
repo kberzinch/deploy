@@ -145,7 +145,7 @@ function get_commit_status()
     global $payload;
     global $token;
 
-    $status = github(
+    return github(
         $payload["commit"]["url"]."/status",
         [],
         "getting commit status",
@@ -153,8 +153,6 @@ function get_commit_status()
         "GET",
         200
     );
-
-    return $status["state"];
 }
 
 /**
