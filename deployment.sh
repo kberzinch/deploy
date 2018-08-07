@@ -8,6 +8,7 @@ cd /var/www/
 echo "+ git clone $(echo ${2} | sed -e "s/x-access-token:.*@/x-access-token:redacted@/g") ${1}"
 git clone ${2} ${1}
 set -x
+cd $1
 git -c advice.detachedHead=false checkout ${3}
 exit
 fi
