@@ -4,14 +4,18 @@
 This is a toolkit for triggering deployments to on-premises servers from GitHub events or Slack slash commands. It supports pulling repositories on GitHub.com as well as GitHub Enterprise instances from the same installation, and accepting Slack slash commands from multiple workspaces and channels.
 
 ## Initial server setup
-1. Clone this repository to your server and set up a PHP web server. Validate by visiting `/github` - you should get a signature verification failure.
-2. Copy `config.sample.php` to `config.php`.
-3. Generate the value for `$webhook_secret`.
-4. If you'd like to get emails, set `$email_from` and `$email_to`. By default, you will receive emails any time a deployment runs, although you can opt to only get failure emails by setting `$always_email` to `false`.
-5. Leave the rest, we'll come back in a bit.
+1. Clone this repository to your server and set up a PHP web server.
+2. Run `composer install` to install dependencies.
+3. Validate by visiting `/github` - you should get a signature verification failure.
+4. Copy `config.sample.php` to `config.php`.
+5. Generate the value for `$webhook_secret`.
+6. If you'd like to get emails, set `$email_from` and `$email_to`. By default, you will receive emails any time a deployment runs, although you can opt to only get failure emails by setting `$always_email` to `false`.
+7. Leave the rest, we'll come back in a bit.
 
 ## GitHub App setup
-1. Visit https://github.com/settings/apps/new to register a new GitHub App, or the appropriate URL on your GitHub Enterprise instance. Most of the form can be filled out as you see fit, but these are the required configuration options.
+Most likely, you only want your GitHub App to be installed on the account or organization that owns it. Be sure to create the app from this context to ensure that other users can't install it.
+
+1. Go to your account/organization settings on GitHub.com/your GitHub Enterprise instance, then navigate to Developer settings > GitHub Apps > New GitHub App. Most of the form can be filled out as you see fit, but these are the required configuration options.
   * Set the **Webhook URL** to https://example.com/github.
   * Set the **Webhook secret** to the same value you configured earlier.
   * Required permissions for full functionality (feel free to adjust)
