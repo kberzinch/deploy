@@ -141,6 +141,6 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         set_status("success", "The deployment completed successfully.");
         break;
     default:
-        "Unrecognized event ".$_SERVER["HTTP_X_GITHUB_EVENT"];
+        echo "Unrecognized event ".$_SERVER["HTTP_X_GITHUB_EVENT"];
         break;
 }
