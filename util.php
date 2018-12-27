@@ -40,7 +40,8 @@ function add_access_token($url): string
  * Sends $data to $url
  * @param  string $url  The GitHub API URL to hit
  * @param  array  $data The data to send
- * @SuppressWarnings(PHPMD.ExitExpression, PHPMD.ElseExpression)
+ * @SuppressWarnings(PHPMD.ExitExpression)
+ * @SuppressWarnings(PHPMD.ElseExpression)
  */
 function github(
     string $url,
