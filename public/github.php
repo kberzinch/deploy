@@ -83,7 +83,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             exit;
         } else {
             echo "Deployed ".$payload["repository"]["full_name"]." to ".$payload["deployment"]["environment"]
-                ."\nhttps://".$_SERVER["SERVER_NAME"]."/".$payload["repository"]["name"]."/"
+                ."\nhttps://".$_SERVER["SERVER_NAME"]."/".$url_prefix.$payload["repository"]["name"]."/"
                 .$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/"
                 .$payload["deployment"]["id"]."/plain.txt";
         }
@@ -172,7 +172,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             mail(
                 $email_to,
                 "[".$payload["repository"]["full_name"]."] New deployment triggered",
-                "Please review the log at "."https://".$_SERVER["SERVER_NAME"]."/"
+                "Please review the log at "."https://".$_SERVER["SERVER_NAME"]."/".$url_prefix
                     .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/"
                     .$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]."/plain.txt",
                 "From: ".$email_from

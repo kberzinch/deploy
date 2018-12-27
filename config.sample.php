@@ -11,6 +11,12 @@
 $webhook_secret = 'generate me at randomkeygen.com or wherever';
 
 /**
+ * If you'd like to host this tool on a shared domain, you may set a URL prefix here. Add a trailing slash if you set
+ * one.
+ */
+$url_prefix = '';
+
+/**
  * If you'd like email notifications when the script runs, set the two
  * variables below.
  */
@@ -89,7 +95,6 @@ $environments = ['production'];
  */
 $oauth_client_id['github.com'] = '';
 $oauth_client_secret['github.com'] = '';
-$oauth_redirect_uri['github.com'] = 'https://example.com/oauth?github=github.com';
 
 /**
  * Will be populated automatically as long as this file is writable. Listed here for reference.

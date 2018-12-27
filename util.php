@@ -128,7 +128,7 @@ function set_status($state, $description)
         $payload["deployment"]["statuses_url"],
         [
             "state" => $state,
-            "log_url" => "https://".$_SERVER["SERVER_NAME"]."/"
+            "log_url" => "https://".$_SERVER["SERVER_NAME"]."/".$url_prefix
                 .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/"
                 .$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]
                 .($state === "in_progress" ? "/" : "/plain.txt"),
