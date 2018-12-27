@@ -16,8 +16,7 @@ This is a toolkit for triggering deployments to on-premises servers from GitHub 
 Most likely, you only want your GitHub App to be installed on the account or organization that owns it. Be sure to create the app from this context to ensure that other users can't install it.
 
 1. Go to your account/organization settings on GitHub.com/your GitHub Enterprise instance, then navigate to Developer settings > GitHub Apps > New GitHub App. Most of the form can be filled out as you see fit, but these are the required configuration options.
-  * Set the **User authorization callback URL** to https://example.com/oauth?github=github.com.
-    * If you are creating the app on a GitHub Enterprise instance, change github.com to the domain for your instance.
+  * Set the **User authorization callback URL** to https://example.com/oauth.
   * Set the **Webhook URL** to https://example.com/github.
   * Set the **Webhook secret** to the same value you configured earlier.
   * Required permissions for full functionality (feel free to adjust)

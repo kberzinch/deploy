@@ -12,7 +12,7 @@ if (!isset($handshakes[$_GET['state']])) {
     exit(file_get_contents("../oauth_error.html"));
 }
 
-$curl = curl_init("https://".$_GET['github']."/login/oauth/access_token");
+$curl = curl_init("https://".$handshakes[$_GET['state']]['github']."/login/oauth/access_token");
 if ($curl === false) {
     http_response_code(500);
     exit('Could not initialize cURL');
@@ -22,11 +22,11 @@ curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
 curl_setopt($curl, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
     "Accept: application/json",
-    "User-Agent: GitHub App ID ".$app_id[$_GET['github']],
+    "User-Agent: GitHub App ID ".$app_id[$handshakes[$_GET['state']]['github']],
 ]);
 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
-    'client_id' => $oauth_client_id[$_GET['github']],
-    'client_secret' => $oauth_client_secret[$_GET['github']],
+    'client_id' => $oauth_client_id[$handshakes[$_GET['state']]['github']],
+    'client_secret' => $oauth_client_secret[$handshakes[$_GET['state']]['github']],
     'code' => $_GET['code'],
     'state' => $_GET['state'],
 ]));
