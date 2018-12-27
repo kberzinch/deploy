@@ -3,9 +3,8 @@
 // This script is allowed to run for up to 10 minutes.
 set_time_limit(600);
 
-require __DIR__ . '/vendor/autoload.php';
-require_once 'config.php';
-require_once 'util.php';
+require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../config.php';
 
 $payload = payload();
 
@@ -71,8 +70,8 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         mkdir($log_location, 0700, true);
 
-        copy(__DIR__."/log-index.html", $log_location."/index.html");
-        copy(__DIR__."/worker.js", $log_location."/worker.js");
+        copy(__DIR__."/../log-index.html", $log_location."/index.html");
+        copy(__DIR__."/../worker.js", $log_location."/worker.js");
         file_put_contents($log_location."/plain.txt",
             "Delivery ID:    ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n".
             "Deployment ID:  ".$payload["deployment"]["id"]."\n".
