@@ -43,7 +43,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         break;
     case 'check_suite':
         $repo = $payload["repository"]["name"];
-        $branch = $payload["branches"][0]["name"];
+        $branch = $payload["check_suite"]["head_branch"];
         if (isset($repositories[$repo]["checks"][$branch])) {
             if ($payload['action'] === 'completed' && $payload['check_suite']['conclusion'] === 'success') {
                 echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to "
