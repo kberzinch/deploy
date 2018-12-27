@@ -12,6 +12,7 @@ global $slack_authorized_users;
 global $slack_gh_org;
 global $slack_channel_repos;
 global $environments;
+global $which_github;
 
 $is_slack = true;
 

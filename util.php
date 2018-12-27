@@ -183,13 +183,20 @@ function which_github()
 /**
  * Gets an app JWT
  * @return string JWT for this GitHub
+ * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function app_token()
 {
     global $private_key;
     global $app_id;
 
-    $key = new SimpleJWT\Keys\RSAKey(file_get_contents($private_key[which_github()]), 'pem');
+    $key = file_get_contents($private_key[which_github()]);
+    if ($key === false) {
+        http_response_code(500);
+        exit('Could not read private key for '.which_github());
+    }
+
+    $key = new SimpleJWT\Keys\RSAKey($key, 'pem');
     $set = new SimpleJWT\Keys\KeySet();
     $set->add($key);
 
