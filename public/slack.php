@@ -5,6 +5,14 @@ require_once __DIR__ . '/../config.php';
 
 header("Content-Type: application/json");
 
+// so phpstan knows these come from config
+global $slack_owner_id;
+global $slack_token;
+global $slack_authorized_users;
+global $slack_gh_org;
+global $slack_channel_repos;
+global $environments;
+
 $is_slack = true;
 
 // Make sure this workspace has an owner

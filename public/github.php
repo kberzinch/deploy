@@ -6,6 +6,8 @@ set_time_limit(600);
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config.php';
 
+global $always_email;
+
 $payload = payload();
 
 switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {

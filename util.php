@@ -10,10 +10,14 @@ function payload()
     global $webhook_secret;
     list($algo, $hash) = explode('=', $_SERVER["HTTP_X_HUB_SIGNATURE"], 2);
     $payload = file_get_contents('php://input');
+    if ($payload === false) {
+        http_response_code(500);
+        die("Could not read php://input");
+    }
     $payloadHash = hash_hmac($algo, $payload, $webhook_secret);
     if ($hash !== $payloadHash) {
         http_response_code(401);
-        die("Signature verification failed.");
+        die("Signature verification failed");
     }
 
     return json_decode($payload, true);
@@ -38,7 +42,7 @@ function add_access_token($url)
  * @param  array  $data The data to send
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-function github(
+array function github(
     string $url,
     array $data,
     string $action = "",
@@ -150,9 +154,8 @@ function token()
 
 /**
  * Checks the commit status for the current commit
- * @return string one of pending, success, failure, error
  */
-function get_commit_status()
+array function get_commit_status()
 {
     global $payload;
 
