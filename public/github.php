@@ -41,6 +41,27 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             echo "Branch:     ".$branch;
         }
         break;
+    case 'check_suite':
+        $repo = $payload["repository"]["name"];
+        $branch = $payload["branches"][0]["name"];
+        if (isset($repositories[$repo]["checks"][$branch])) {
+            if ($payload['action'] === 'completed' && $payload['check_suite']['conclusion'] === 'success') {
+                echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to "
+                    .$repositories[$repo]["checks"][$branch]."\n";
+                $token = token();
+                trigger_deployment($payload["sha"], $repositories[$repo]["checks"][$branch]);
+            } else {
+                echo "Action is ".$payload['action'].", conclusion is ".$payload['check_suite']['conclusion']
+                .' - not deploying';
+                exit;
+            }
+        } else {
+            echo "No applicable configuration found.\n\n";
+            echo "Repository: ".$repo."\n";
+            echo "Event:      checks\n";
+            echo "Branch:     ".$branch;
+        }
+        break;
     case "push":
         $repo = $payload["repository"]["name"];
         $branch = substr($payload["ref"], 11);
