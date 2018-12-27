@@ -16,6 +16,8 @@ This is a toolkit for triggering deployments to on-premises servers from GitHub 
 Most likely, you only want your GitHub App to be installed on the account or organization that owns it. Be sure to create the app from this context to ensure that other users can't install it.
 
 1. Go to your account/organization settings on GitHub.com/your GitHub Enterprise instance, then navigate to Developer settings > GitHub Apps > New GitHub App. Most of the form can be filled out as you see fit, but these are the required configuration options.
+  * Set the **User authorization callback URL** to https://example.com/oauth?github=github.com.
+    * If you are creating the app on a GitHub Enterprise instance, change github.com to the domain for your instance.
   * Set the **Webhook URL** to https://example.com/github.
   * Set the **Webhook secret** to the same value you configured earlier.
   * Required permissions for full functionality (feel free to adjust)
@@ -23,7 +25,6 @@ Most likely, you only want your GitHub App to be installed on the account or org
     * **Deployments:** Read & write
     * **Commit statuses:** Read
   * Required event subscriptions for full functionality (feel free to adjust)
-    * **Push**
     * **Deployment**
     * **Status**
   * I recommend only allowing the GitHub App to be installed on the owning account.
@@ -64,6 +65,7 @@ Slack does not provide the same event and authorization detail as GitHub events,
 * Set `$slack_gh_org` to the GitHub account or organization that owns your repositories. Note that this must match across GitHub.com and GitHub Enterprise if you are using both.
 * The `$which_github` array maps repositories to the GitHub instance where they are hosted. You must add an entry for all repositories that will be deployed from Slack. You must include the account or organization name here.
 * The `$environments` array is the list of environments that are valid for all repositories.
+* Add `$oauth_client_id`, `$oauth_client_secret`, and `$oauth_redirect_uri` entries for each GitHub instance where the GitHub App is installed. This is used for fetching user tokens so that you can track who is creating deployments.
 
 Add entries as shown below to authorize deployments for specific repositories from channels.
 
