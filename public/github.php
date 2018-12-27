@@ -49,7 +49,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
                 echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to "
                     .$repositories[$repo]["checks"][$branch]."\n";
                 $token = token();
-                trigger_deployment($payload["sha"], $repositories[$repo]["checks"][$branch]);
+                trigger_deployment($payload['check_suite']["head_sha"], $repositories[$repo]["checks"][$branch]);
             } else {
                 echo "Action is ".$payload['action'].", conclusion is ".$payload['check_suite']['conclusion']
                 .' - not deploying';
