@@ -38,7 +38,7 @@ if ($code !== 200 || is_bool($response)) {
     exit(file_get_contents("../oauth_error.html"));
 }
 
-$response = json_decode($response);
+$response = json_decode($response, true);
 
 $success = file_put_contents(
     __DIR__.'/../config.php',
