@@ -131,13 +131,13 @@ function set_status($state, $description)
             "log_url" => "https://".$_SERVER["SERVER_NAME"]."/"
                 .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/"
                 .$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]
-                .($state === "pending" ? "/" : "/plain.txt"),
+                .($state === "in_progress" ? "/" : "/plain.txt"),
             "description" => $description
         ],
         "setting status",
         "application/vnd.github.ant-man-preview+json, application/vnd.github.flash-preview+json"
     );
-    if ($state !== "pending") {
+    if ($state !== "in_progress") {
         file_put_contents($log_location."/plain.txt", "\n# ".$description."\n", FILE_APPEND);
     }
 }
