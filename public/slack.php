@@ -95,7 +95,7 @@ if (count($repos_for_channel) === 0) {
         $payload["repository"] = [];
         $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
         $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-        $token = token();
+        $token = user_token();
         github(
             api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
             [
@@ -114,7 +114,7 @@ if (count($repos_for_channel) === 0) {
         $payload["repository"] = [];
         $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
         $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-        $token = token();
+        $token = user_token();
         github(
             api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
             [
@@ -130,7 +130,7 @@ if (count($repos_for_channel) === 0) {
             $payload["repository"] = [];
             $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
             $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-            $token = token();
+            $token = user_token();
             github(
                 api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
                 [
@@ -149,7 +149,7 @@ if (count($repos_for_channel) === 0) {
             $payload["repository"] = [];
             $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
             $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-            $token = token();
+            $token = user_token();
             github(
                 api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
                 [
@@ -170,7 +170,7 @@ if (count($repos_for_channel) === 0) {
             $payload["repository"] = [];
             $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
             $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-            $token = token();
+            $token = user_token();
             github(
                 api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
                 [
@@ -193,7 +193,7 @@ if (count($repos_for_channel) === 0) {
                 $payload["repository"] = [];
                 $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
                 $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-                $token = token();
+                $token = user_token();
                 github(
                     api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
                     [
@@ -208,7 +208,7 @@ if (count($repos_for_channel) === 0) {
                 $payload["repository"] = [];
                 $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
                 $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-                $token = token();
+                $token = user_token();
                 github(
                     api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
                     [
@@ -234,7 +234,7 @@ if (count($repos_for_channel) === 0) {
     $payload["repository"] = [];
     $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
     $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-    $token = token();
+    $token = user_token();
     github(
         api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
         [

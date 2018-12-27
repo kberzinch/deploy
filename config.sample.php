@@ -83,3 +83,15 @@ $which_github['YourGitHubOrg/your-repository'] = 'github.com';
  * List of valid environments for Slack
  */
 $environments = ['production'];
+
+/**
+ * Information for OAuth handshakes
+ */
+$oauth_client_id['github.com'] = '';
+$oauth_client_secret['github.com'] = '';
+$oauth_redirect_uri['github.com'] = 'https://example.com/oauth?github=github.com';
+
+/**
+ * Will be populated automatically as long as this file is writable. Listed here for reference.
+ */
+$slack_to_oauth['TXXXXXXXX']['UXXXXXXXX']['github.com'] = [''];

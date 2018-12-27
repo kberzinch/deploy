@@ -264,3 +264,18 @@ function api_base(): string
 {
     return "https://".(which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3");
 }
+
+/**
+ * Either returns the token for the user or exits for OAuth flow
+ * @return string token for user
+ */
+function user_token(string $which_github): string
+{
+    if (isset($slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github])) {
+        return $slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github];
+    }
+    exit(
+        "Looks like you're new here! <Click here|https://github.com/login/oauth/authorize?client_id="
+            .$oauth_client_id[$which_github]."> to link your Slack account to GitHub."
+    );
+}
