@@ -11,7 +11,7 @@ $response = github(
         'code' => $_GET['code'],
         'state' => $_GET['state'],
     ],
-    'completing OAuth handshake'
+    'completing OAuth handshake',
     'POST',
     'application/json',
     200,
