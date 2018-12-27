@@ -40,7 +40,7 @@ function add_access_token($url): string
  * Sends $data to $url
  * @param  string $url  The GitHub API URL to hit
  * @param  array  $data The data to send
- * @SuppressWarnings(PHPMD.ExitExpression)
+ * @SuppressWarnings(PHPMD.ExitExpression, PHPMD.ElseExpression)
  */
 function github(
     string $url,
@@ -52,6 +52,7 @@ function github(
 ): array {
     global $token;
     global $app_id;
+    global $is_slack;
     $curl = curl_init($url);
     if ($curl === false) {
         http_response_code(500);
@@ -67,18 +68,34 @@ function github(
     ]);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
     $response = curl_exec($curl);
-    // false actually does mean an error, true check is to appease PHPStan
-    if ($response === false || $response === true || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== $expected_status) {
+    $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    if (is_bool($response)) {
         if ($is_slack) {
-            echo "Error ".$action.": ".json_decode($response, true)["message"];
+            echo "Error ".$action.": ".$code;
+            curl_close($curl);
+            exit;
         } else {
             http_response_code(500);
-            echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".curl_getinfo($curl, CURLINFO_HTTP_CODE)." "
-            .$response;
+            echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".$code;
+            curl_close($curl);
+            exit;
         }
-        curl_close($curl);
-        exit;
     }
+
+    if ($code !== $expected_status) {
+        if ($is_slack) {
+            echo "Error ".$action.": ".json_decode($response, true)["message"];
+            curl_close($curl);
+            exit;
+        } else {
+            http_response_code(500);
+            echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".$code." ".$response;
+            curl_close($curl);
+            exit;
+        }
+    }
+
     curl_close($curl);
     return json_decode($response, true);
 }
