@@ -16,7 +16,7 @@ global $which_github;
 
 $is_slack = true;
 
-const $more_than_one_repo = "More than one repository can be deployed from this channel. Please specify a repository, "
+$more_than_one_repo = "More than one repository can be deployed from this channel. Please specify a repository, "
     ."then optionally a git ref and/or environment."
 
 // Make sure this workspace has an owner
