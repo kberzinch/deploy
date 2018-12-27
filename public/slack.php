@@ -65,9 +65,7 @@ if (!array_key_exists($_POST["channel_id"], $slack_channel_repos[$_POST["team_id
 }
 
 if (!in_array($_POST["user_id"], $slack_authorized_users[$_POST["team_id"]])) {
-    die(
-        "You're not authorized to use this slash command. User ID: ".$_POST["user_id"]
-    );
+    die("You're not authorized to use this slash command.");
 }
 
 $repos_for_channel = $slack_channel_repos[$_POST["team_id"]][$_POST["channel_id"]];
