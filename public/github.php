@@ -138,7 +138,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         file_put_contents($log_location."/plain.txt", "\n# Executing git operations\n", FILE_APPEND);
 
         passthru(
-            "/bin/bash -x -e -o pipefail ".__DIR__."/deployment.sh "
+            "/bin/bash -x -e -o pipefail ".__DIR__."/../deployment.sh "
             .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]." "
             .add_access_token($payload["repository"]["clone_url"])
             ." ".$payload["deployment"]["sha"]." >> ".$log_location."/plain.txt 2>&1",
