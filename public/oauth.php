@@ -12,10 +12,10 @@ if (!isset($handshakes[$_GET['state']])) {
 }
 
     $curl = curl_init("https://".$_GET['github']."/login/oauth/access_token");
-    if ($curl === false) {
-        http_response_code(500);
-        exit('Could not initialize cURL');
-    }
+if ($curl === false) {
+    http_response_code(500);
+    exit('Could not initialize cURL');
+}
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
@@ -23,7 +23,7 @@ if (!isset($handshakes[$_GET['state']])) {
         "Accept: application/json",
         "User-Agent: GitHub App ID ".$app_id[$_GET['github']],
     ]);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(    [
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode([
         'client_id' => $oauth_client_id[$_GET['github']],
         'client_secret' => $oauth_client_secret[$_GET['github']],
         'code' => $_GET['code'],
@@ -37,17 +37,17 @@ if (!isset($handshakes[$_GET['state']])) {
         exit(file_get_contents("../oauth_error.html"));
     }
 
-json_decode($response);
+    json_decode($response);
 
-$success = file_put_contents(
-    __DIR__.'/../config.php',
-    "\n".'$slack_to_oauth[\''.$handshakes[$_GET['state']]['team'].'\'][\''.$handshakes[$_GET['state']]['user'].'\'][\''.$handshakes[$_GET['state']]['github'].'\'] = \''.$response['access_token'].'\';'."\n",
-    FILE_APPEND
-);
+    $success = file_put_contents(
+        __DIR__.'/../config.php',
+        "\n".'$slack_to_oauth[\''.$handshakes[$_GET['state']]['team'].'\'][\''.$handshakes[$_GET['state']]['user'].'\'][\''.$handshakes[$_GET['state']]['github'].'\'] = \''.$response['access_token'].'\';'."\n",
+        FILE_APPEND
+    );
 
     if ($success === false) {
         http_response_code(500);
         exit(file_get_contents("../oauth_error.html"));
     }
 
-exit(file_get_contents("../oauth_success.html"));
+    exit(file_get_contents("../oauth_success.html"));
