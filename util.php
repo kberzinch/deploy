@@ -49,7 +49,8 @@ function github(
     string $action = "",
     string $accept = "application/vnd.github.machine-man-preview+json",
     string $method = "POST",
-    int $expected_status = 201
+    int $expected_status = 201,
+    string $which_github = null
 ): array {
     global $token;
     global $app_id;
@@ -64,7 +65,7 @@ function github(
     curl_setopt($curl, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         "Accept: ".$accept,
-        "User-Agent: GitHub App ID ".$app_id[which_github()],
+        "User-Agent: GitHub App ID ".$app_id[($which_github === null ? which_github() : $which_github)],
         "Authorization: Bearer ".$token
     ]);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
@@ -279,6 +280,7 @@ function user_token(string $which_github): string
     }
     exit(
         "Looks like you're new here! *<https://github.com/login/oauth/authorize?client_id="
-            .$oauth_client_id[$which_github]."|Click here>* to link your Slack account to GitHub."
+            .$oauth_client_id[$which_github]."&state=".md5(uniqid("", true))
+            ."|Click here>* to link your Slack account to GitHub."
     );
 }
