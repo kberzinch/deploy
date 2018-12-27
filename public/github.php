@@ -118,7 +118,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             FILE_APPEND
         );
 
-        set_status("pending", "Deployment started");
+        set_status("in_progress", "Deployment started");
 
         if (file_exists($directory.'/pre-deploy-hook.sh')) {
             file_put_contents($log_location."/plain.txt", "\n# Executing pre-deploy-hook.sh\n", FILE_APPEND);
