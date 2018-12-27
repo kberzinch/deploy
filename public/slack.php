@@ -17,7 +17,7 @@ global $which_github;
 $is_slack = true;
 
 $more_than_one_repo = "More than one repository can be deployed from this channel. Please specify a repository, "
-    ."then optionally a git ref and/or environment."
+    ."then optionally a git ref and/or environment.";
 
 // Make sure this workspace has an owner
 if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
