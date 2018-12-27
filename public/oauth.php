@@ -3,6 +3,9 @@
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config.php';
 
+global $oauth_client_id;
+global $oauth_client_secret;
+
 $response = github(
     "https://".$_GET['github']."/login/oauth/access_token",
     [
