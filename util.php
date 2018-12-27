@@ -111,6 +111,7 @@ function set_status($state, $description)
 {
     global $payload;
     global $log_location;
+    global $url_prefix;
     static $didfail = false;
     if ($state === "failure") {
         $didfail = true;
