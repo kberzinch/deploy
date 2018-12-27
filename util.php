@@ -272,6 +272,7 @@ function api_base(): string
  */
 function user_token(string $which_github): string
 {
+    global $slack_to_oauth;
     global $oauth_client_id;
     if (isset($slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github])) {
         return $slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github];
