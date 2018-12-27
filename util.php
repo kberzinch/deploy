@@ -278,9 +278,24 @@ function user_token(string $which_github): string
     if (isset($slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github])) {
         return $slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github];
     }
+    $state = md5(uniqid("", true));
+
+    $success = file_put_contents(
+        __DIR__.'/config.php',
+        "\n".'$handshakes[\''.$state.'\'] = [\'team\' => \''.$_POST["team_id"].'\', \'user\' => \''.$_POST["user_id"]
+            .'\', \'github\' => \''.$which_github.'\']; // this line can be deleted'."\n",
+        FILE_APPEND
+    );
+
+    if ($success === false) {
+        exit(
+            "Looks like you're new here! Unfortunately, I wasn't able to create an OAuth link for you to link your "
+                ."Slack account to GitHub. Please make sure `config.php` is writable."
+        );
+    }
+
     exit(
         "Looks like you're new here! *<https://github.com/login/oauth/authorize?client_id="
-            .$oauth_client_id[$which_github]."&state=".md5(uniqid("", true))
-            ."|Click here>* to link your Slack account to GitHub."
+            .$oauth_client_id[$which_github]."&state=".$state."|Click here>* to link your Slack account to GitHub."
     );
 }
