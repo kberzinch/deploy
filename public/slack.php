@@ -10,7 +10,8 @@ $is_slack = true;
 // Make sure this workspace has an owner
 if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
     die(
-        "This workspace isn't configured for deployments yet. Contact your DevOps lead.\n\nWorkspace ID: ".$_POST["team_id"]."\nUser ID: ".$_POST["user_id"]
+        "This workspace isn't configured for deployments yet. Contact your DevOps lead.\n\nWorkspace ID: "
+        .$_POST["team_id"]
     );
 }
 
@@ -18,7 +19,8 @@ if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
 if ($_POST["token"] !== $slack_token[$_POST["team_id"]]) {
     if ($_POST["user_id"] === $slack_owner_id[$_POST["team_id"]]) {
         die(
-            "Slack sent a bad token. Check to make sure the token matches between Slack and your server.\nWorkspace ID: ".$_POST["team_id"]
+            "Slack sent a bad token. Check to make sure the token matches between Slack and your server."
+            ."\nWorkspace ID: ".$_POST["team_id"]
         );
     } else {
         die(
@@ -36,7 +38,8 @@ if ($_POST["text"] === "config") {
         echo "\n*GitHub account:* ".$slack_gh_org[$_POST["team_id"]]."\n*Repositories for this channel:*";
         foreach ($slack_channel_repos[$_POST["team_id"]][$_POST["channel_id"]] as $repo) {
             echo ' '.$repo;
-            echo '@'.(isset($which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? $which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo] : "missing which github");
+            echo '@'.(isset($which_github[$slack_gh_org[$_POST["team_id"]]."/".$repo]) ? $which_github[
+                $slack_gh_org[$_POST["team_id"]]."/".$repo] : "missing which github");
         }
         die();
     } else {
@@ -67,7 +70,8 @@ if ($_POST["text"] === "help") {
     die(
         "The following repositories can be deployed from this channel: *".
         implode(", ", $repos_for_channel).
-        "*\n\nTo trigger a deployment, use */deploy".(count($repos_for_channel) > 1 ? " [repository]" : "")." [git ref] [environment]*"
+        "*\n\nTo trigger a deployment, use */deploy".(count($repos_for_channel) > 1 ? " [repository]" : "")
+        ." [git ref] [environment]*"
     );
 }
 

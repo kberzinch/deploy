@@ -36,8 +36,14 @@ function add_access_token($url)
  * @param  string $url  The GitHub API URL to hit
  * @param  array  $data The data to send
  */
-function github($url, array $data, $action = "", $accept = "application/vnd.github.machine-man-preview+json", $method = "POST", $expected_status = 201)
-{
+function github(
+    string $url,
+    array $data,
+    string $action = "",
+    string $accept = "application/vnd.github.machine-man-preview+json",
+    string $method = "POST",
+    int $expected_status = 201
+) {
     global $token;
     global $is_slack;
     $ch = curl_init($url);
@@ -52,7 +58,8 @@ function github($url, array $data, $action = "", $accept = "application/vnd.gith
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     $response = curl_exec($ch);
     if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== $expected_status) {
-        echo "Error ".$action."\n".$url."\n".curl_getinfo($ch, CURLINFO_HTTP_CODE)." ".json_decode($response, true)["message"];
+        echo "Error ".$action."\n".$url."\n".curl_getinfo($ch, CURLINFO_HTTP_CODE)." "
+            .json_decode($response, true)["message"];
         if (!$is_slack) {
             http_response_code(500);
         }
@@ -90,7 +97,9 @@ function set_status($state, $description)
         [
             "state" => $state,
             "log_url" => "https://".$_SERVER["SERVER_NAME"]."/"
-                .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"].($state === "pending" ? "/" : "/plain.txt"),
+                .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/"
+                .$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]
+                .($state === "pending" ? "/" : "/plain.txt"),
             "description" => $description
         ],
         "setting status",

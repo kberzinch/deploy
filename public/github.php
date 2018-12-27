@@ -23,11 +23,14 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
                 echo "Current commit status of ".$payload["sha"]." is ".$status." - not deploying";
                 exit;
             }
-            if (isset($required_status_checks[$payload["repository"]["full_name"]]) && $required_status_checks[$payload["repository"]["full_name"]] !== $status["total_count"]) {
-                echo $status["total_count"]." of ".$required_status_checks[$payload["repository"]["full_name"]]." required status checks completed - not deploying";
+            if (isset($required_status_checks[$payload["repository"]["full_name"]])
+                && $required_status_checks[$payload["repository"]["full_name"]] !== $status["total_count"]) {
+                echo $status["total_count"]." of ".$required_status_checks[$payload["repository"]["full_name"]]
+                    ." required status checks completed - not deploying";
                 exit;
             }
-            echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to ".$repositories[$repo]["status"][$branch]."\n";
+            echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to "
+                .$repositories[$repo]["status"][$branch]."\n";
             trigger_deployment($payload["sha"], $repositories[$repo]["status"][$branch]);
         } else {
             echo "No applicable configuration found.\n\n";
@@ -40,7 +43,8 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         $repo = $payload["repository"]["name"];
         $branch = substr($payload["ref"], 11);
         if (isset($repositories[$repo]["push"][$branch])) {
-            echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to ".$repositories[$repo]["push"][$branch]."\n";
+            echo "Requesting deployment of ".$payload["repository"]["full_name"]."/".$branch." to "
+                .$repositories[$repo]["push"][$branch]."\n";
             $token = token();
             trigger_deployment($payload["ref"], $repositories[$repo]["push"][$branch]);
         } else {
@@ -55,7 +59,10 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             echo "Not deploying GitHub Pages build.";
             exit;
         } else {
-            echo "Deployed ".$payload["repository"]["full_name"]." to ".$payload["deployment"]["environment"]."\nhttps://".$_SERVER["SERVER_NAME"]."/".$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]."/plain.txt";
+            echo "Deployed ".$payload["repository"]["full_name"]." to ".$payload["deployment"]["environment"]
+                ."\nhttps://".$_SERVER["SERVER_NAME"]."/".$payload["repository"]["name"]."/"
+                .$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/"
+                .$payload["deployment"]["id"]."/plain.txt";
         }
         $token = token();
 
@@ -82,13 +89,20 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             FILE_APPEND
         );
 
-        file_put_contents($log_location."/title", $payload["deployment"]["environment"]." | ".$payload["repository"]["full_name"], FILE_APPEND);
+        file_put_contents(
+            $log_location."/title",
+            $payload["deployment"]["environment"]." | ".$payload["repository"]["full_name"],
+            FILE_APPEND
+        );
 
         set_status("pending", "Deployment started");
 
         if (file_exists($directory.'/pre-deploy-hook.sh')) {
             file_put_contents($log_location."/plain.txt", "\n# Executing pre-deploy-hook.sh\n", FILE_APPEND);
-            passthru('/bin/bash -x -e -o pipefail '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
+            passthru(
+                '/bin/bash -x -e -o pipefail '.$directory.'/pre-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1',
+                $return_value
+            );
             if ($return_value !== 0) {
                 set_status("failure", "The pre-deploy-hook encountered an error.");
                 $error = true;
@@ -118,7 +132,10 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         if (file_exists($directory.'/post-deploy-hook.sh')) {
             file_put_contents($log_location."/plain.txt", "\n# Executing post-deploy-hook.sh\n", FILE_APPEND);
-            passthru('/bin/bash -x -e -o pipefail '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1', $return_value);
+            passthru(
+                '/bin/bash -x -e -o pipefail '.$directory.'/post-deploy-hook.sh >> '.$log_location.'/plain.txt 2>&1',
+                $return_value
+            );
             if ($return_value !== 0) {
                 set_status("failure", "The post-deploy-hook encountered an error.");
                 $error = true;
@@ -133,7 +150,8 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
                 $email_to,
                 "[".$payload["repository"]["full_name"]."] New deployment triggered",
                 "Please review the log at "."https://".$_SERVER["SERVER_NAME"]."/"
-                    .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]."/plain.txt",
+                    .$payload["repository"]["name"]."/".$payload["deployment"]["environment"]."/"
+                    .$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]."/plain.txt",
                 "From: ".$email_from
             );
         }
