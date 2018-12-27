@@ -278,7 +278,7 @@ function user_token(string $which_github): string
         return $slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github];
     }
     exit(
-        "Looks like you're new here! <Click here|https://github.com/login/oauth/authorize?client_id="
-            .$oauth_client_id[$which_github]."> to link your Slack account to GitHub."
+        "Looks like you're new here! *<https://github.com/login/oauth/authorize?client_id="
+            .$oauth_client_id[$which_github]."|Click here>* to link your Slack account to GitHub."
     );
 }
