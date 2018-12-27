@@ -268,9 +268,11 @@ function api_base(): string
 /**
  * Either returns the token for the user or exits for OAuth flow
  * @return string token for user
+ * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function user_token(string $which_github): string
 {
+    global $oauth_client_id;
     if (isset($slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github])) {
         return $slack_to_oauth[$_POST["team_id"]][$_POST["user_id"]][$which_github];
     }
