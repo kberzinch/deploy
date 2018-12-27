@@ -16,6 +16,9 @@ global $which_github;
 
 $is_slack = true;
 
+const $more_than_one_repo = "More than one repository can be deployed from this channel. Please specify a repository, "
+    ."then optionally a git ref and/or environment."
+
 // Make sure this workspace has an owner
 if (!array_key_exists($_POST["team_id"], $slack_owner_id)) {
     die(
@@ -103,7 +106,7 @@ if (count($repos_for_channel) === 0) {
             "triggering deployment"
         );
     } else {
-        die("More than one repository can be deployed from this channel. Please specify a repository, then optionally a git ref and/or environment.");
+        die($more_than_one_repo);
     }
 } elseif (count($input) === 1) {
     if (in_array($input[0], $repos_for_channel)) {
@@ -138,7 +141,7 @@ if (count($repos_for_channel) === 0) {
                 "triggering deployment"
             );
         } else {
-            die("More than one repository can be deployed from this channel. Please specify a repository, then optionally a git ref and/or environment.");
+            die($more_than_one_repo);
         }
     } else {
         if (count($repos_for_channel) === 1) {
@@ -157,7 +160,7 @@ if (count($repos_for_channel) === 0) {
                 "triggering deployment"
             );
         } else {
-            die("More than one repository can be deployed from this channel. Please specify a repository, then optionally a git ref and/or environment.");
+            die($more_than_one_repo);
         }
     }
 } elseif (count($input) === 2) {
@@ -178,7 +181,10 @@ if (count($repos_for_channel) === 0) {
                 "triggering deployment"
             );
         } else {
-            die('Please provide a git ref and environment. Environment must be one of *'.implode(", ", $environments).'*');
+            die(
+                'Please provide a git ref and environment. Environment must be one of *'
+                    .implode(", ", $environments).'*'
+            );
         }
     } else {
         if (in_array($input[0], $repos_for_channel)) {
