@@ -121,7 +121,7 @@ if (count($repos_for_channel) === 0) {
             ],
             "triggering deployment"
         );
-    } elseif (in_array($input[0], $environments) {
+    } elseif (in_array($input[0], $environments)) {
         if (count($repos_for_channel) === 1) {
             $payload = [];
             $payload["repository"] = [];
