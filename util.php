@@ -295,7 +295,7 @@ function user_token(string $which_github): string
     }
 
     exit(
-        "Looks like you're new here! *<https://github.com/login/oauth/authorize?client_id="
+        "Looks like you're new here! *<https://".$which_github."/login/oauth/authorize?client_id="
             .$oauth_client_id[$which_github]."&state=".$state."|Click here>* to link your Slack account to GitHub."
     );
 }
