@@ -67,9 +67,15 @@ function github(
     ]);
     curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
     $response = curl_exec($curl);
+    // false actually does mean an error, true check is to appease PHPStan
     if ($response === false || $response === true || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== $expected_status) {
-        echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".curl_getinfo($curl, CURLINFO_HTTP_CODE)." "
+        if ($is_slack) {
+            echo "Error ".$action.": ".json_decode($response, true)["message"];
+        } else {
+            http_response_code(500);
+            echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".curl_getinfo($curl, CURLINFO_HTTP_CODE)." "
             .$response;
+        }
         curl_close($curl);
         exit;
     }

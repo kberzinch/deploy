@@ -86,31 +86,138 @@ $input = explode(" ", $_POST["text"]);
 
 if (count($repos_for_channel) === 0) {
     die("No repositories can be deployed from this channel.");
-} elseif (count($repos_for_channel) === 1) {
-    if (count($input) !== 2) {
-        die('Please provide a git ref and environment name.');
+} elseif (count($input) === 0) {
+    if (count($repos_for_channel) === 1) {
+        $payload = [];
+        $payload["repository"] = [];
+        $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
+        $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+        $token = token();
+        github(
+            api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
+            [
+                "ref" => 'master',
+                "environment" => 'production',
+                "auto_merge" => false,
+            ],
+            "triggering deployment"
+        );
+    } else {
+        die("More than one repository can be deployed from this channel. Please specify a repository, then optionally a git ref and/or environment.");
     }
-    if (!in_array($input[1], $environments)) {
-        die('Environment must be one of *'.implode(", ", $environments).'*');
+} elseif (count($input) === 1) {
+    if (in_array($input[0], $repos_for_channel)) {
+        $payload = [];
+        $payload["repository"] = [];
+        $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
+        $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+        $token = token();
+        github(
+            api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
+            [
+                "ref" => 'master',
+                "environment" => 'production',
+                "auto_merge" => false,
+            ],
+            "triggering deployment"
+        );
+    } elseif (in_array($input[0], $environments) {
+        if (count($repos_for_channel) === 1) {
+            $payload = [];
+            $payload["repository"] = [];
+            $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
+            $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+            $token = token();
+            github(
+                api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
+                [
+                    "ref" => 'master',
+                    "environment" => $input[0],
+                    "auto_merge" => false,
+                ],
+                "triggering deployment"
+            );
+        } else {
+            die("More than one repository can be deployed from this channel. Please specify a repository, then optionally a git ref and/or environment.");
+        }
+    } else {
+        if (count($repos_for_channel) === 1) {
+            $payload = [];
+            $payload["repository"] = [];
+            $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
+            $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+            $token = token();
+            github(
+                api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
+                [
+                    "ref" => $input[0],
+                    "environment" => 'production',
+                    "auto_merge" => false,
+                ],
+                "triggering deployment"
+            );
+        } else {
+            die("More than one repository can be deployed from this channel. Please specify a repository, then optionally a git ref and/or environment.");
+        }
     }
-    $payload = [];
-    $payload["repository"] = [];
-    $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
-    $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
-    $token = token();
-    github(
-        api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
-        [
-            "ref" => $input[0],
-            "environment" => $input[1],
-            "auto_merge" => false,
-        ],
-        "triggering deployment"
-    );
-} else {
-    if (count($input) !== 3) {
-        die('Please provide a repository, git ref, and environment name.');
+} elseif (count($input) === 2) {
+    if (count($repos_for_channel) === 1) {
+        if (in_array($input[1], $environments)) {
+            $payload = [];
+            $payload["repository"] = [];
+            $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0];
+            $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+            $token = token();
+            github(
+                api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$repos_for_channel[0]."/deployments",
+                [
+                    "ref" => $input[0],
+                    "environment" => $input[1],
+                    "auto_merge" => false,
+                ],
+                "triggering deployment"
+            );
+        } else {
+            die('Please provide a git ref and environment. Environment must be one of *'.implode(", ", $environments).'*');
+        }
+    } else {
+        if (in_array($input[0], $repos_for_channel)) {
+            if (in_array($input[1], $environments)) {
+                $payload = [];
+                $payload["repository"] = [];
+                $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
+                $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+                $token = token();
+                github(
+                    api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
+                    [
+                        "ref" => 'master',
+                        "environment" => $input[1],
+                        "auto_merge" => false,
+                    ],
+                    "triggering deployment"
+                );
+            } else {
+                $payload = [];
+                $payload["repository"] = [];
+                $payload["repository"]["full_name"] = $slack_gh_org[$_POST["team_id"]]."/".$input[0];
+                $payload["repository"]["clone_url"] = "https://".$which_github[$payload["repository"]["full_name"]];
+                $token = token();
+                github(
+                    api_base().'/repos/'.$slack_gh_org[$_POST["team_id"]]."/".$input[0]."/deployments",
+                    [
+                        "ref" => $input[1],
+                        "environment" => 'production',
+                        "auto_merge" => false,
+                    ],
+                    "triggering deployment"
+                );
+            }
+        } else {
+            die("Please specify a repository, then optionally a git ref and/or environment.");
+        }
     }
+} elseif (count($input) === 3) {
     if (!in_array($input[0], $repos_for_channel)) {
         die('Repository must be one of *'.implode(", ", $repos_for_channel).'*');
     }
@@ -131,6 +238,8 @@ if (count($repos_for_channel) === 0) {
         ],
         "triggering deployment"
     );
+} else {
+    die("Too many parameters specified.");
 }
 
 echo '{"response_type": "in_channel"}';
