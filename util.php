@@ -3,6 +3,7 @@
 /**
  * Verifies and parses the payload
  * @return array the GitHub webhook payload
+ * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function payload()
 {
@@ -35,6 +36,7 @@ function add_access_token($url)
  * Sends $data to $url
  * @param  string $url  The GitHub API URL to hit
  * @param  array  $data The data to send
+ * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function github(
     string $url,
@@ -45,28 +47,29 @@ function github(
     int $expected_status = 201
 ) {
     global $token;
-    global $is_slack;
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    global $app_id;
+    $curl = curl_init($url);
+    if ($curl === false) {
+        http_response_code(500);
+        exit('Could not initialize cURL');
+    }
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
         'Content-Type: application/json',
         "Accept: ".$accept,
         "User-Agent: GitHub App ID ".$app_id[which_github()],
         "Authorization: Bearer ".$token
     ]);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    $response = curl_exec($ch);
-    if (curl_getinfo($ch, CURLINFO_HTTP_CODE) !== $expected_status) {
-        echo "Error ".$action."\n".$url."\n".curl_getinfo($ch, CURLINFO_HTTP_CODE)." "
-            .json_decode($response, true)["message"];
-        if (!$is_slack) {
-            http_response_code(500);
-        }
-        curl_close($ch);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    $response = curl_exec($curl);
+    if ($response === false || $response === true || curl_getinfo($curl, CURLINFO_HTTP_CODE) !== $expected_status) {
+        echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".curl_getinfo($curl, CURLINFO_HTTP_CODE)." "
+            .$response;
+        curl_close($curl);
         exit;
     }
-    curl_close($ch);
+    curl_close($curl);
     return json_decode($response, true);
 }
 
@@ -152,7 +155,6 @@ function token()
 function get_commit_status()
 {
     global $payload;
-    global $token;
 
     return github(
         $payload["commit"]["url"]."/status",
@@ -205,20 +207,19 @@ function installation_id()
 
     if (isset($payload["installation"]["id"])) {
         return $payload["installation"]["id"];
-    } else {
-        if (!isset($token)) {
-            $token = app_token();
-        }
-        $installation = github(
-            api_base()."/repos/".$payload["repository"]["full_name"]."/installation",
-            [],
-            "getting installation information",
-            "application/vnd.github.machine-man-preview+json",
-            "GET",
-            200
-        );
-        return $installation["id"];
     }
+    if (!isset($token)) {
+        $token = app_token();
+    }
+    $installation = github(
+        api_base()."/repos/".$payload["repository"]["full_name"]."/installation",
+        [],
+        "getting installation information",
+        "application/vnd.github.machine-man-preview+json",
+        "GET",
+        200
+    );
+    return $installation["id"];
 }
 
 /**
@@ -227,5 +228,5 @@ function installation_id()
  */
 function api_base()
 {
-    return "https://".($api_base = which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3");
+    return "https://".(which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3");
 }
