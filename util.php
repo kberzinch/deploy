@@ -210,7 +210,7 @@ function app_token(): string
 /**
  * Provides the installation ID for this event.
  */
-function installation_id(): string
+function installation_id(): int
 {
     global $payload;
     global $token;
