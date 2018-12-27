@@ -5,7 +5,7 @@
  * @return array the GitHub webhook payload
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-function payload()
+function payload(): array
 {
     global $webhook_secret;
     list($algo, $hash) = explode('=', $_SERVER["HTTP_X_HUB_SIGNATURE"], 2);
@@ -28,7 +28,7 @@ function payload()
  * @param  string $url The URL to tokenize
  * @return string      The URL, possibly with an authentication token inserted
  */
-function add_access_token($url)
+function add_access_token($url): string
 {
     global $token;
     $clone_url = explode("/", $url);
@@ -137,7 +137,7 @@ function trigger_deployment($ref, $environment)
  * Fetches an installation token for other components to use
  * @return string a GitHub App access token for interacting with the repository
  */
-function token()
+function token(): string
 {
     global $token;
 
@@ -174,7 +174,7 @@ function get_commit_status(): array
  * registration information.
  * @return string primary GitHub domain
  */
-function which_github()
+function which_github(): string
 {
     global $payload;
     return explode("/", $payload["repository"]["clone_url"])[2];
@@ -185,7 +185,7 @@ function which_github()
  * @return string JWT for this GitHub
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-function app_token()
+function app_token(): string
 {
     global $private_key;
     global $app_id;
@@ -210,7 +210,7 @@ function app_token()
 /**
  * Provides the installation ID for this event.
  */
-function installation_id()
+function installation_id(): string
 {
     global $payload;
     global $token;
@@ -236,7 +236,7 @@ function installation_id()
  * Returns base API URL for this event
  * @return string the GitHub API base URL
  */
-function api_base()
+function api_base(): string
 {
     return "https://".(which_github() === "github.com" ? "api.github.com" : which_github()."/api/v3");
 }
