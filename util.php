@@ -42,14 +42,14 @@ function add_access_token($url)
  * @param  array  $data The data to send
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
-array function github(
+function github(
     string $url,
     array $data,
     string $action = "",
     string $accept = "application/vnd.github.machine-man-preview+json",
     string $method = "POST",
     int $expected_status = 201
-) {
+): array {
     global $token;
     global $app_id;
     $curl = curl_init($url);
@@ -155,7 +155,7 @@ function token()
 /**
  * Checks the commit status for the current commit
  */
-array function get_commit_status()
+function get_commit_status(): array
 {
     global $payload;
 
