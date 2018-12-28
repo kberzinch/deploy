@@ -51,7 +51,7 @@ You can add lines as shown below to `config.php` to configure the app to handle 
 $repositories['deploy']['push']['master'] = 'production';
 ```
 
-The first key is the **repository**, the second key is the **event** (either `push` or `status`, if you have CI or similar that reports commit statuses), and the third key is the **branch**. The value is the **environment** to deploy.
+The first key is the **repository**, the second key is the **event** (either `push`, `status`, or `checks`, if you have CI or similar that reports commit statuses or checks), and the third key is the **branch**. The value is the **environment** to deploy.
 
 ## Slack slash command setup
 Slack does not provide the same event and authorization detail as GitHub events, so this configuration is somewhat convoluted.
