@@ -103,6 +103,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
 
         copy(__DIR__."/../log-index.html", $log_location."/index.html");
         copy(__DIR__."/../worker.js", $log_location."/worker.js");
+        copy(__DIR__."/../app.js", $log_location."/app.js");
         file_put_contents(
             $log_location."/plain.txt",
             "Delivery ID:    ".$_SERVER["HTTP_X_GITHUB_DELIVERY"]."\n".
