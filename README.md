@@ -7,12 +7,20 @@ This is a toolkit for triggering deployments to on-premises servers from GitHub 
 1. Clone this repository to your server and set up a PHP web server.
 2. Run `composer install` to install dependencies.
 3. Validate by visiting `/github` - you should get a signature verification failure.
-4. Copy `config.sample.php` to `config.php`.
-5. Generate the value for `$webhook_secret`.
-6. If you'd like to get emails, set `$email_from` and `$email_to`. By default, you will receive emails any time a deployment runs, although you can opt to only get failure emails by setting `$always_email` to `false`.
+4. Copy `config.sample.php` to `config.php`. **Skip this step if using the Easy Way on github.com.**
+5. Generate the value for `$webhook_secret`. **Skip this step if using the Easy Way on github.com.**
+6. If you'd like to get emails, set `$email_from` and `$email_to`. By default, you will receive emails any time a deployment runs, although you can opt to only get failure emails by setting `$always_email` to `false`. **Do this step later if using the Easy Way on github.com.**
 7. Leave the rest, we'll come back in a bit.
 
 ## GitHub App setup
+
+### Easy way
+This is not supported on GitHub Enterprise as of version 2.15, but it can be used for github.com.
+
+Once your server is set up, visit `/setup` and follow the prompts.
+
+### Hard way
+
 Most likely, you only want your GitHub App to be installed on the account or organization that owns it. Be sure to create the app from this context to ensure that other users can't install it.
 
 1. Go to your account/organization settings on GitHub.com/your GitHub Enterprise instance, then navigate to Developer settings > GitHub Apps > New GitHub App. Most of the form can be filled out as you see fit, but these are the required configuration options.
@@ -64,7 +72,7 @@ Slack does not provide the same event and authorization detail as GitHub events,
 * Set `$slack_gh_org` to the GitHub account or organization that owns your repositories. Note that this must match across GitHub.com and GitHub Enterprise if you are using both.
 * The `$which_github` array maps repositories to the GitHub instance where they are hosted. You must add an entry for all repositories that will be deployed from Slack. You must include the account or organization name here.
 * The `$environments` array is the list of environments that are valid for all repositories.
-* Add `$oauth_client_id`, `$oauth_client_secret`, and `$oauth_redirect_uri` entries for each GitHub instance where the GitHub App is installed. This is used for fetching user tokens so that you can track who is creating deployments.
+* Add `$oauth_client_id`, `$oauth_client_secret`, and `$oauth_redirect_uri` entries for each GitHub instance where the GitHub App is installed. This is used for fetching user tokens so that you can track who is creating deployments. **This is not done for you if you used the setup wizard on github.com.**
 
 Add entries as shown below to authorize deployments for specific repositories from channels.
 
