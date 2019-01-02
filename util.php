@@ -170,7 +170,7 @@ function token(): string
     $token = app_token();
 
     $access_token = github(
-        api_base()."/installations/".installation_id()."/access_tokens",
+        api_base()."/app/installations/".installation_id()."/access_tokens",
         [],
         "getting access token"
     );
