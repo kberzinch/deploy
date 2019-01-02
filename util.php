@@ -92,7 +92,7 @@ function github(
             exit;
         } else {
             http_response_code(500);
-            echo "Error ".$action."\n".$url."\n".json_encode($data)."\n".$code." ".$response;
+            echo "Error ".$action."\n".$method." ".$url."\n".json_encode($data)."\n".$code." ".$response;
             curl_close($curl);
             exit;
         }
