@@ -68,7 +68,9 @@ function github(
         "User-Agent: GitHub App ID ".$app_id[($which_github === null ? which_github() : $which_github)],
         "Authorization: Bearer ".$token
     ]);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    if ([] !== $data) {
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+    }
     $response = curl_exec($curl);
     $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
