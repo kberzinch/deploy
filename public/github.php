@@ -88,7 +88,7 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             exit;
         } else {
             if (file_exists($log_location)) {
-                echo "Deployment already in progress or completed. Create a new deployment."
+                echo "Deployment already in progress or completed. Create a new deployment.";
                 exit;
             } else {
                 // not a real lock but close enough probably
