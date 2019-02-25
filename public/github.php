@@ -79,27 +79,26 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
         }
         break;
     case "deployment":
+        $this_instance = $payload["repository"]["name"]."/".$payload["deployment"]["environment"];
+
+        $log_location = __DIR__."/".$this_instance."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"];
+
         if ($payload["deployment"]["environment"] === "github-pages") {
             echo "Not deploying GitHub Pages build.";
             exit;
         } else {
+            if (file_exists($log_location)) {
+                echo "Deployment already in progress or completed. Create a new deployment."
+                exit;
+            } else {
+                // not a real lock but close enough probably
+                mkdir($log_location, 0700, true);
+            }
             echo "Deployed ".$payload["repository"]["full_name"]." to ".$payload["deployment"]["environment"]
                 ."\nhttps://".$_SERVER["SERVER_NAME"]."/".$url_prefix.$payload["repository"]["name"]."/"
                 .$payload["deployment"]["environment"]."/".$payload["deployment"]["sha"]."/"
                 .$payload["deployment"]["id"]."/plain.txt";
         }
-        $token = token();
-
-        $this_instance = $payload["repository"]["name"]."/".$payload["deployment"]["environment"];
-        $directory = '/var/www/'.$this_instance;
-
-        $return_value = 0;
-
-        $error = false;
-
-        $log_location = __DIR__."/".$this_instance."/".$payload["deployment"]["sha"]."/".$payload["deployment"]["id"];
-
-        mkdir($log_location, 0700, true);
 
         copy(__DIR__."/../log-index.html", $log_location."/index.html");
         copy(__DIR__."/../worker.js", $log_location."/worker.js");
@@ -119,6 +118,14 @@ switch ($_SERVER["HTTP_X_GITHUB_EVENT"]) {
             $payload["deployment"]["environment"]." | ".$payload["repository"]["full_name"],
             FILE_APPEND
         );
+
+        $directory = '/var/www/'.$this_instance;
+
+        $return_value = 0;
+
+        $error = false;
+
+        $token = token();
 
         set_status("in_progress", "Deployment started");
 
