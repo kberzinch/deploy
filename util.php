@@ -136,7 +136,7 @@ function set_status($state, $description)
             .$payload["deployment"]["sha"]."/".$payload["deployment"]["id"]
             .($state === "in_progress" ? "/" : "/plain.txt"),
         "description" => $description
-    ],
+    ];
 
     if (isset($environment_url[$payload['repository']['name']][$payload["deployment"]["environment"]])) {
         $data['environment_url'] = $environment_url[
