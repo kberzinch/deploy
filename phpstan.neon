@@ -1,0 +1,6 @@
+parameters:
+  includes:
+    - %rootDir%/../phpstan-deprecated-rules/rules.neon
+    - %rootDir%/../phpstan-strict-rules/rules.neon
+  ignoreErrors:
+    - '#Result of && is always false#'
