@@ -16,15 +16,15 @@ function scrollPage(e)
 function stopFollowing()
 {
     worker.removeEventListener('message', scrollPage);
-    document.getElementById("stopbutton").style.display='none';
-    document.getElementById("startbutton").style.display='';
+    document.getElementById("stopbutton").style.display = 'none';
+    document.getElementById("startbutton").style.display = '';
 }
 
 function startFollowing()
 {
     worker.addEventListener('message', scrollPage);
-    document.getElementById("stopbutton").style.display='';
-    document.getElementById("startbutton").style.display='none';
+    document.getElementById("stopbutton").style.display = '';
+    document.getElementById("startbutton").style.display = 'none';
 }
 
 function setTitle()

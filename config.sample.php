@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 ///////////////////////////////////////////////////////////
 // Copy this file to config.php and edit as appropriate. //
@@ -31,12 +31,12 @@ $always_email = true;
 /**
  * The location of the private key for your GitHub app here.
  */
-$private_key["github.com"] = '/opt/deploy/your-github-app.pem';
+$private_key['github.com'] = '/opt/deploy/your-github-app.pem';
 
 /**
  * The ID of your GitHub app
  */
-$app_id["github.com"] = 15018;
+$app_id['github.com'] = 15018;
 
 /**
  * Per-repository configuration in the below format
