@@ -1,11 +1,11 @@
 <?php declare(strict_types = 1);
 
-// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification,Generic.NamingConventions.CamelCapsFunctionName.NotCamelCaps
+// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification,Generic.NamingConventions.CamelCapsFunctionName.NotCamelCaps,SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableParameterTypeHintSpecification,Squiz.Arrays.ArrayBracketSpacing.SpaceBeforeBracket
 
 /**
  * Verifies and parses the payload
  *
- * @return                                 array the GitHub webhook payload
+ * @return array the GitHub webhook payload
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
@@ -30,7 +30,7 @@ function payload(): array
 /**
  * Injects an authentication token for the given URL if one is available in the config file
  *
- * @param  string $url The URL to tokenize
+ * @param string $url The URL to tokenize
  *
  * @return string      The URL, possibly with an authentication token inserted
  */
@@ -45,8 +45,8 @@ function add_access_token(string $url): string
 /**
  * Sends $data to $url
  *
- * @param                                  string $url  The GitHub API URL to hit
- * @param                                  array  $data The data to send
+ * @param string $url  The GitHub API URL to hit
+ * @param array  $data The data to send
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  * @SuppressWarnings(PHPMD.ElseExpression)
@@ -168,8 +168,13 @@ function set_status(string $state, string $description): void
 
 /**
  * Triggers a deployment for the ref that triggered this event
+ *
+ * @param string $ref The git ref that triggered the deployment
+ * @param string $environment The environment being deployed
+ *
+ * @return void
  */
-function trigger_deployment($ref, $environment): void
+function trigger_deployment(string $ref, string $environment): void
 {
     global $payload;
     github(
@@ -234,7 +239,7 @@ function which_github(): string
 /**
  * Gets an app JWT
  *
- * @return                                 string JWT for this GitHub
+ * @return string JWT for this GitHub
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
@@ -298,7 +303,7 @@ function api_base(): string
 /**
  * Either returns the token for the user or exits for OAuth flow
  *
- * @return                                 string token for user
+ * @return string token for user
  *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
