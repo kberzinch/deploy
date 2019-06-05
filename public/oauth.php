@@ -1,5 +1,7 @@
 <?php declare(strict_types = 1);
 
+// phpcs:disable Generic.Strings.UnnecessaryStringConcat.Found
+
 require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../config.php';
 
@@ -42,8 +44,8 @@ $response = json_decode($response, true);
 
 $success = file_put_contents(
     __DIR__ . '/../config.php',
-    "\n" . '$slack_to_oauth[\'' . $handshakes[$_GET['state']]['team'] . '\'][\'' . $handshakes[$_GET['state']]['user'] . '\'][\''
-        . $handshakes[$_GET['state']]['github'] . '\'] = \'' . $response['access_token'] . '\';' . "\n",
+    "\n" . '$slack_to_oauth[\'' . $handshakes[$_GET['state']]['team'] . '\'][\'' . $handshakes[$_GET['state']]['user']
+        . '\'][\'' . $handshakes[$_GET['state']]['github'] . '\'] = \'' . $response['access_token'] . '\';' . "\n",
     FILE_APPEND
 );
 

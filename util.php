@@ -1,9 +1,12 @@
 <?php declare(strict_types = 1);
 
+// phpcs:disable SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingTraversableReturnTypeHintSpecification,Generic.NamingConventions.CamelCapsFunctionName.NotCamelCaps
+
 /**
  * Verifies and parses the payload
  *
  * @return                                 array the GitHub webhook payload
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function payload(): array
@@ -28,6 +31,7 @@ function payload(): array
  * Injects an authentication token for the given URL if one is available in the config file
  *
  * @param  string $url The URL to tokenize
+ *
  * @return string      The URL, possibly with an authentication token inserted
  */
 function add_access_token(string $url): string
@@ -43,6 +47,7 @@ function add_access_token(string $url): string
  *
  * @param                                  string $url  The GitHub API URL to hit
  * @param                                  array  $data The data to send
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  * @SuppressWarnings(PHPMD.ElseExpression)
  */
@@ -98,7 +103,8 @@ function github(
         }
 
         http_response_code(500);
-        echo 'Error ' . $action . "\n" . $method . ' ' . $url . "\n" . json_encode($data) . "\n" . $code . ' ' . $response;
+        echo 'Error ' . $action . "\n" . $method . ' ' . $url . "\n" . json_encode($data) . "\n" . $code . ' '
+            . $response;
         curl_close($curl);
         exit;
     }
@@ -143,7 +149,8 @@ function set_status(string $state, string $description): void
     ];
 
     if (isset($environment_url[$payload['repository']['name']][$payload['deployment']['environment']])) {
-        $data['environment_url'] = $environment_url[$payload['repository']['name']][$payload['deployment']['environment']];
+        $data['environment_url'] = $environment_url[$payload['repository']['name']]
+            [$payload['deployment']['environment']];
     }
 
     github(
@@ -228,6 +235,7 @@ function which_github(): string
  * Gets an app JWT
  *
  * @return                                 string JWT for this GitHub
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function app_token(): string
@@ -291,6 +299,7 @@ function api_base(): string
  * Either returns the token for the user or exits for OAuth flow
  *
  * @return                                 string token for user
+ *
  * @SuppressWarnings(PHPMD.ExitExpression)
  */
 function user_token(string $which_github): string
@@ -304,8 +313,8 @@ function user_token(string $which_github): string
 
     $success = file_put_contents(
         __DIR__ . '/config.php',
-        "\n" . '$handshakes[\'' . $state . '\'] = [\'team\' => \'' . $_POST['team_id'] . '\', \'user\' => \'' . $_POST['user_id']
-            . '\', \'github\' => \'' . $which_github . '\']; // this line can be deleted' . "\n",
+        "\n" . '$handshakes[\'' . $state . '\'] = [\'team\' => \'' . $_POST['team_id'] . '\', \'user\' => \''
+            . $_POST['user_id'] . '\', \'github\' => \'' . $which_github . '\']; // this line can be deleted' . "\n",
         FILE_APPEND
     );
 
@@ -318,6 +327,7 @@ function user_token(string $which_github): string
 
     exit(
         "Looks like you're new here! *<https://" . $which_github . '/login/oauth/authorize?client_id='
-            . $oauth_client_id[$which_github] . '&state=' . $state . '|Click here>* to link your Slack account to GitHub.'
+            . $oauth_client_id[$which_github] . '&state=' . $state
+            . '|Click here>* to link your Slack account to GitHub.'
     );
 }

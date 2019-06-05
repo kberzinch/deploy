@@ -16,8 +16,12 @@ global $which_github;
 
 $is_slack = true;
 
+// phpcs:disable Generic.Strings.UnnecessaryStringConcat.Found
+
 $more_than_one_repo = 'More than one repository can be deployed from this channel. Please specify a repository, '
     . 'then optionally a git ref and/or environment.';
+
+// phpcs:enable
 
 // Make sure this workspace has an owner
 if (!array_key_exists($_POST['team_id'], $slack_owner_id)) {

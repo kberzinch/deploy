@@ -1,5 +1,7 @@
 <?php declare(strict_types = 1);
 
+// phpcs:disable SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation.ImplicitArrayCreationUsed
+
 ///////////////////////////////////////////////////////////
 // Copy this file to config.php and edit as appropriate. //
 ///////////////////////////////////////////////////////////
@@ -20,8 +22,8 @@ $url_prefix = '';
  * If you'd like email notifications when the script runs, set the two
  * variables below.
  */
-//$email_from = 'deploy@example.com';
-//$email_to = 'you@example.com';
+$email_from = 'deploy@example.com';
+$email_to = 'you@example.com';
 
 /**
  * If set to false, emails will only be sent when an error is detected.

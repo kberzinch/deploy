@@ -1,5 +1,7 @@
 <?php declare(strict_types = 1);
 
+// phpcs:disable Generic.PHP.DiscourageGoto.Found,Generic.Strings.UnnecessaryStringConcat.Found
+
 // This script is allowed to run for up to 10 minutes.
 set_time_limit(600);
 
@@ -8,6 +10,8 @@ require_once __DIR__ . '/../config.php';
 
 global $always_email;
 global $url_prefix;
+global $email_from;
+global $email_to;
 
 $payload = payload();
 
@@ -82,7 +86,8 @@ switch ($_SERVER['HTTP_X_GITHUB_EVENT']) {
     case 'deployment':
         $this_instance = $payload['repository']['name'] . '/' . $payload['deployment']['environment'];
 
-        $log_location = __DIR__ . '/' . $this_instance . '/' . $payload['deployment']['sha'] . '/' . $payload['deployment']['id'];
+        $log_location = __DIR__ . '/' . $this_instance . '/' . $payload['deployment']['sha'] . '/'
+            . $payload['deployment']['id'];
 
         if ('github-pages' === $payload['deployment']['environment']) {
             echo 'Not deploying GitHub Pages build.';
@@ -133,7 +138,8 @@ switch ($_SERVER['HTTP_X_GITHUB_EVENT']) {
         if (file_exists($directory . '/pre-deploy-hook.sh')) {
             file_put_contents($log_location . '/plain.txt', "\n# Executing pre-deploy-hook.sh\n", FILE_APPEND);
             passthru(
-                '/bin/bash -x -e -o pipefail ' . $directory . '/pre-deploy-hook.sh >> ' . $log_location . '/plain.txt 2>&1',
+                '/bin/bash -x -e -o pipefail ' . $directory . '/pre-deploy-hook.sh >> ' . $log_location
+                    . '/plain.txt 2>&1',
                 $return_value
             );
             if (0 !== $return_value) {
@@ -166,7 +172,8 @@ switch ($_SERVER['HTTP_X_GITHUB_EVENT']) {
         if (file_exists($directory . '/post-deploy-hook.sh')) {
             file_put_contents($log_location . '/plain.txt', "\n# Executing post-deploy-hook.sh\n", FILE_APPEND);
             passthru(
-                '/bin/bash -x -e -o pipefail ' . $directory . '/post-deploy-hook.sh >> ' . $log_location . '/plain.txt 2>&1',
+                '/bin/bash -x -e -o pipefail ' . $directory . '/post-deploy-hook.sh >> ' . $log_location
+                    . '/plain.txt 2>&1',
                 $return_value
             );
             if (0 !== $return_value) {
