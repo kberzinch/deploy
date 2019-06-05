@@ -1,24 +1,23 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "hash": "ff99cc61d6df8fce04de7bd40fc91fc9",
-    "content-hash": "fcfcab1cc0170d2fcb905585641617f7",
+    "content-hash": "6b54b28ea00b08eeadfd42e2033564bc",
     "packages": [
         {
             "name": "kelvinmo/simplejwt",
-            "version": "v0.1.5",
+            "version": "v0.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kelvinmo/simplejwt.git",
-                "reference": "ac4389dcf75f859ad371977d0f0275243ead320b"
+                "reference": "aeb2ae5ab452e3da3ebbd5ce78cad70e361d9641"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kelvinmo/simplejwt/zipball/ac4389dcf75f859ad371977d0f0275243ead320b",
-                "reference": "ac4389dcf75f859ad371977d0f0275243ead320b",
+                "url": "https://api.github.com/repos/kelvinmo/simplejwt/zipball/aeb2ae5ab452e3da3ebbd5ce78cad70e361d9641",
+                "reference": "aeb2ae5ab452e3da3ebbd5ce78cad70e361d9641",
                 "shasum": ""
             },
             "require": {
@@ -59,7 +58,7 @@
                 "JWE",
                 "jwt"
             ],
-            "time": "2017-08-12 10:14:03"
+            "time": "2019-02-08T20:42:24+00:00"
         }
     ],
     "packages-dev": [],
