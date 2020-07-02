@@ -4,26 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6b54b28ea00b08eeadfd42e2033564bc",
+    "content-hash": "e49e66d3a48ce2774f44a02519db9873",
     "packages": [
         {
             "name": "kelvinmo/simplejwt",
-            "version": "v0.2.4",
+            "version": "v0.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kelvinmo/simplejwt.git",
-                "reference": "aeb2ae5ab452e3da3ebbd5ce78cad70e361d9641"
+                "reference": "851da3d340ed06b5a9dd3bf8727d5bf384306e18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kelvinmo/simplejwt/zipball/aeb2ae5ab452e3da3ebbd5ce78cad70e361d9641",
-                "reference": "aeb2ae5ab452e3da3ebbd5ce78cad70e361d9641",
+                "url": "https://api.github.com/repos/kelvinmo/simplejwt/zipball/851da3d340ed06b5a9dd3bf8727d5bf384306e18",
+                "reference": "851da3d340ed06b5a9dd3bf8727d5bf384306e18",
                 "shasum": ""
             },
             "require": {
                 "ext-hash": "*",
                 "ext-openssl": "*",
-                "php": ">=5.4.0"
+                "php": "^5.4 || ^7.1"
             },
             "require-dev": {
                 "ext-bz2": "*",
@@ -58,7 +58,7 @@
                 "JWE",
                 "jwt"
             ],
-            "time": "2019-02-08T20:42:24+00:00"
+            "time": "2020-06-28T09:52:03+00:00"
         }
     ],
     "packages-dev": [],
@@ -68,5 +68,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
