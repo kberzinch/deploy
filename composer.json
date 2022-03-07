@@ -1,6 +1,6 @@
 {
     "require": {
-        "kelvinmo/simplejwt": "^0.5.0"
+        "kelvinmo/simplejwt": "^0.6.0"
     },
     "autoload": {
         "files": [
